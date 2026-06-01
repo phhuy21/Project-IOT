@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "ai-game-developer": {
+      "args": [
+        "port=50341",
+        "plugin-timeout=10000",
+        "client-transport=stdio",
+        "authorization=required",
+        "token=uiqtOhr_Y9E_p_OWMBFWxhnVlxmWdQGuAc1hidE7on0"
+      ],
+      "command": "D:/Project IOT/Project IOT/gui/gui/gui/gui/Library/mcp-server/win-x64/unity-mcp-server.exe"
+    }
+  }
+}

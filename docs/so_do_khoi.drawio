@@ -1,0 +1,214 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" version="29.6.6" pages="2">
+  <diagram id="block-diagram" name="Sơ đồ khối">
+    <mxGraphModel dx="1419" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="client-group" parent="1" style="shape=mxgraph.basic.rect;fillColor=none;strokeColor=#333333;dashed=1;dashPattern=8 4;fontSize=15;fontStyle=1;verticalAlign=top;spacingTop=5;rounded=1;arcSize=8;" value="Client" vertex="1">
+          <mxGeometry height="300" width="300" x="30" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="unity-app" parent="1" style="shape=mxgraph.basic.rect;fillColor=none;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;spacingTop=3;rounded=1;arcSize=6;" value="Unity APP" vertex="1">
+          <mxGeometry height="260" width="270" x="50" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="dashboard-ui" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=0;" value="Dashboard&#xa;UI" vertex="1">
+          <mxGeometry height="60" width="100" x="65" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="mediapipe" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=0;" value="MediaPipe&#xa;+ Encoder&#xa;(Nhận diện&#xa;và mã hóa&#xa;hình ảnh)" vertex="1">
+          <mxGeometry height="85" width="120" x="185" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="result-display" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#bbdefb;strokeColor=#6c8ebf;fontSize=10;fontStyle=1;" value="Hiển thị kết quả&#xa;(Tên + MSSV + %&#xa;+ Trạng thái)" vertex="1">
+          <mxGeometry height="55" width="180" x="90" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="internet-cloud" parent="1" style="shape=cloud;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;" value="INTERNET" vertex="1">
+          <mxGeometry height="140" width="220" x="390" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="server-group" parent="1" style="shape=mxgraph.basic.rect;fillColor=#f0f4ff;strokeColor=#333333;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=5;rounded=1;arcSize=6;" value="SERVER PUBLIC (GOOGLE CLOUD RUN)" vertex="1">
+          <mxGeometry height="200" width="560" x="670" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="flask-api" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=0;" value="Flask API&#xa;Gateway&#xa;(Nhận request,&#xa;xác thực,&#xa;điều phối)" vertex="1">
+          <mxGeometry height="90" width="110" x="690" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="faiss" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=0;" value="FAISS Engine&#xa;(So sánh vector&#xa;Cosine Similarity&#xa;+ Auto-learn)" vertex="1">
+          <mxGeometry height="90" width="130" x="825" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="matching" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=0;" value="Matching Logic&#xa;(best_sim ≥ 0.55&#xa;gap ≥ 0.03&#xa;ratio ≤ 0.97)" vertex="1">
+          <mxGeometry height="90" width="120" x="980" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="gsheets-sync" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=0;" value="Google Sheets&#xa;Sync v2&#xa;(Điểm danh)" vertex="1">
+          <mxGeometry height="80" width="90" x="1125" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" edge="1" parent="1" source="flask-api" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#333333;" target="faiss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" edge="1" parent="1" source="faiss" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#333333;" target="matching">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" edge="1" parent="1" source="matching" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#333333;dashed=1;" target="gsheets-sync">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="modal-group" parent="1" style="shape=mxgraph.basic.rect;fillColor=#ede7f6;strokeColor=#4527a0;fontSize=13;fontStyle=1;verticalAlign=top;spacingTop=5;rounded=1;arcSize=6;" value="MODAL GPU WORKER (NVIDIA T4)" vertex="1">
+          <mxGeometry height="130" width="560" x="670" y="260" as="geometry" />
+        </mxCell>
+        <mxCell id="decoder" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=10;fontStyle=0;" value="Decoder&#xa;(Base64 →&#xa;OpenCV imread)" vertex="1">
+          <mxGeometry height="70" width="110" x="690" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="yolov8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=10;fontStyle=0;" value="YOLOv8n&#xa;Anti-fraud&#xa;(detect phone)" vertex="1">
+          <mxGeometry height="70" width="110" x="825" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="retinaface" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=10;fontStyle=0;" value="RetinaFace&#xa;Face Detection&#xa;(Fallback chain)" vertex="1">
+          <mxGeometry height="70" width="120" x="960" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="arcface" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=10;fontStyle=1;" value="ArcFace&#xa;(ResNet50)&#xa;512-dim vector" vertex="1">
+          <mxGeometry height="70" width="110" x="1105" y="295" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" source="decoder" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#4527a0;" target="yolov8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" source="yolov8" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#4527a0;" target="retinaface">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" source="retinaface" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#4527a0;" target="arcface">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="server-to-modal" edge="1" parent="1" source="flask-api" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#4527a0;dashed=1;" target="decoder">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="server-to-modal-label" connectable="0" parent="server-to-modal" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#4527a0;" value="POST&#xa;(Base64 image)" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="modal-to-server" edge="1" parent="1" source="arcface" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=0;entryX=0.5;entryY=1;strokeColor=#4527a0;dashed=1;" target="faiss">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1160" y="280" />
+              <mxPoint x="1160" y="240" />
+              <mxPoint x="890" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="modal-to-server-label" connectable="0" parent="modal-to-server" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#4527a0;" value="Vector 512D" vertex="1">
+          <mxGeometry relative="1" x="0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="hardware-group" parent="1" style="shape=mxgraph.basic.rect;fillColor=none;strokeColor=#333333;fontSize=12;fontStyle=1;verticalAlign=top;spacingTop=3;rounded=1;arcSize=8;" value="Phần cứng" vertex="1">
+          <mxGeometry height="100" width="130" x="30" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="webcam" parent="1" style="shape=mxgraph.basic.rect;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=0;rounded=1;arcSize=10;" value="WebCam" vertex="1">
+          <mxGeometry height="45" width="90" x="50" y="435" as="geometry" />
+        </mxCell>
+        <mxCell id="firebase-group" parent="1" style="shape=mxgraph.basic.rect;fillColor=#fff8e1;strokeColor=#d6a800;fontSize=14;fontStyle=1;verticalAlign=top;spacingTop=5;rounded=1;arcSize=6;" value="FIREBASE" vertex="1">
+          <mxGeometry height="170" width="370" x="230" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="storage" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=0;" value="Storage&#xa;(Kho lưu trữ&#xa;ảnh khuôn mặt gốc)" vertex="1">
+          <mxGeometry height="110" width="150" x="250" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="firestore" parent="1" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=0;" value="Firestore database&#xa;(Lưu embedding vectors,&#xa;attendance logs,&#xa;roster, accounts)" vertex="1">
+          <mxGeometry height="110" width="155" x="430" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="internet-cloud2" parent="1" style="shape=cloud;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" value="INTERNET" vertex="1">
+          <mxGeometry height="90" width="150" x="660" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="gsheets-ext" parent="1" style="shape=mxgraph.basic.rect;fillColor=#c8e6c9;strokeColor=#388e3c;fontSize=11;fontStyle=1;rounded=1;arcSize=8;" value="Google Sheets&#xa;(Bảng điểm danh)" vertex="1">
+          <mxGeometry height="50" width="170" x="240" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="hw-client" edge="1" parent="1" source="webcam" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=0;entryX=0.15;entryY=1;strokeColor=#333333;" target="client-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="hw-client-label" connectable="0" parent="hw-client" style="edgeLabel;html=1;fontSize=9;fontStyle=2;" value="Stream (Local)" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="client-internet" edge="1" parent="1" source="client-group" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.4;entryX=0;entryY=0.4;strokeColor=#333333;dashed=1;" target="internet-cloud">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="client-internet-label" connectable="0" parent="client-internet" style="edgeLabel;html=1;fontSize=9;fontStyle=2;" value="HTTP POST" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="internet-server" edge="1" parent="1" source="internet-cloud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.3;entryX=0;entryY=0.4;strokeColor=#333333;" target="server-group">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="internet-server-label" connectable="0" parent="internet-server" style="edgeLabel;html=1;fontSize=9;fontStyle=2;" value="HTTP POST" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="server-internet-image" edge="1" parent="1" source="internet-cloud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#0066CC;dashed=1;" target="storage">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="server-internet-image-label" connectable="0" parent="server-internet-image" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#0066CC;" value="IMAGE" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="internet-firestore" edge="1" parent="1" source="internet-cloud" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.8;exitY=1;entryX=0.5;entryY=0;strokeColor=#CC6600;dashed=1;" target="firestore">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="566" y="350" />
+              <mxPoint x="508" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="internet-firestore-label" connectable="0" parent="internet-firestore" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#CC6600;" value="Vector 512D" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="firestore-internet2" edge="1" parent="1" source="firestore" style="rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;strokeColor=#333333;" target="internet-cloud2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="internet2-server" edge="1" parent="1" source="internet-cloud2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.5;exitY=0;entryX=0.5;entryY=1;strokeColor=#009900;dashed=1;" target="server-group">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="735" y="420" />
+              <mxPoint x="950" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="internet2-server-label" connectable="0" parent="internet2-server" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#009900;" value="JSON" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="server-client-json" edge="1" parent="1" source="server-group" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0;exitY=0;entryX=1;entryY=0;strokeColor=#CC0000;dashed=1;dashPattern=8 4;" target="client-group">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="650" y="10" />
+              <mxPoint x="340" y="10" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="server-client-json-label" connectable="0" parent="server-client-json" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#CC0000;" value="JSON (Response)" vertex="1">
+          <mxGeometry relative="1" x="-0.1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="firestore-gsheets" edge="1" parent="1" source="firestore" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0.3;exitY=1;entryX=0.5;entryY=0;strokeColor=#388e3c;dashed=1;" target="gsheets-ext">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="477" y="590" />
+              <mxPoint x="325" y="590" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="firestore-gsheets-label" connectable="0" parent="firestore-gsheets" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#388e3c;" value="Sync điểm danh" vertex="1">
+          <mxGeometry relative="1" x="-0.2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="knnT-GyJlCDsDJYFy-FF" name="Trang-2">
+    <mxGraphModel dx="2058" dy="1152" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

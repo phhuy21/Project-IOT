@@ -1,0 +1,857 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/MainDashboard.uss?fileID=7433441132597879392&amp;guid=8608484933eefd64cbfbb921a66bf232&amp;type=3#MainDashboard" />
+    <ui:VisualElement class="main-container" style="background-color: rgb(242, 247, 248); display: flex; visibility: visible; overflow: visible; opacity: 1; flex-wrap: nowrap;">
+        <ui:VisualElement name="Sidebar" class="sidebar-wide">
+            <ui:VisualElement class="logo-container" style="flex-direction: row; align-items: center; margin-bottom: 40px; margin-left: 10px;">
+                <ui:VisualElement name="SidebarLogo" style="width: 36px; height: 36px; margin-right: 10px; border-radius: 8px; background-color: #f0f0f0;" />
+                <ui:Label text="HCM-UTE" class="logo-text" style="margin-bottom: 0; margin-left: 0;" />
+                <ui:VisualElement style="flex-grow: 1;" />
+                <ui:Button name="BtnSidebarToggle" class="sidebar-toggle" text="⟪" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-grow: 1;">
+                <ui:Button name="BtnHome" class="menu-item active">
+                    <ui:VisualElement class="menu-icon icon-home" />
+                    <ui:Label text="Trang chủ" class="menu-text" />
+                </ui:Button>
+
+                <ui:Button name="BtnRegister" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-register" />
+                    <ui:Label text="Đăng ký" class="menu-text" />
+                </ui:Button>
+                <ui:Button name="BtnAttendance" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-attendance" />
+                    <ui:Label text="Điểm danh" class="menu-text" />
+                </ui:Button>
+                <ui:Button name="BtnClassList" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-classlist" />
+                    <ui:Label text="Danh sách lớp" class="menu-text" />
+                </ui:Button>
+                <ui:Button name="BtnStats" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-stats" />
+                    <ui:Label text="Thống kê" class="menu-text" />
+                </ui:Button>
+                <ui:Button name="BtnSchedule" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-schedule" />
+                    <ui:Label text="Lịch dạy" class="menu-text" />
+                </ui:Button>
+                <ui:Button name="BtnSettings" class="menu-item">
+                    <ui:VisualElement class="menu-icon icon-settings" />
+                    <ui:Label text="Cài đặt" class="menu-text" />
+                </ui:Button>
+            </ui:VisualElement>
+
+            <ui:Button name="BtnLogout" class="menu-item">
+                <ui:VisualElement class="menu-icon icon-logout" />
+                <ui:Label text="Đăng xuất" class="menu-text" />
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement class="content-area">
+            <ui:VisualElement class="header">
+                <ui:Label text="Hệ Thống Điểm Danh AI" class="header-title" />
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label name="LblDateWeek" text="Thứ Năm, 25/12 - Tuần 16" class="header-date" style="margin-right: 20px; font-size: 16px; color: #636e72;" />
+                    <ui:Label name="LblClock" text="08:30:00" style="font-size: 20px; color: rgb(99, 110, 114); -unity-text-align: upper-center;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement class="workspace">
+                <ui:VisualElement class="info-column">
+                    <!-- 1. HOME MODE (Dashboard Redesign) -->
+                    <ui:VisualElement name="MainContentContainer" style="flex-grow: 1;">
+                        
+                        <!-- DATE PICKER ROW -->
+                        <ui:VisualElement style="flex-direction: row; justify-content: flex-end; margin-bottom: 10px; align-items: center;">
+                            <ui:Label text="📅 Xem ngày:" style="font-size: 14px; color: #636e72; margin-right: 10px;" />
+                            <ui:DropdownField name="DrpDaySelector" class="btn-dropdown" style="width: 150px;" />
+                        </ui:VisualElement>
+
+                        <!-- ROW 1: STATS OVERVIEW -->
+                        <ui:VisualElement class="dashboard-row" style="height: 140px; margin-bottom: 20px;">
+                            <!-- Card 1: Total Students -->
+                            <ui:VisualElement class="dashboard-card card-blue">
+                                <ui:Label text="Tổng sinh viên" class="stat-label" />
+                                <ui:Label name="LblStatTotal" text="--" class="stat-value" />
+                                <ui:Label name="LblCurrentClass" text="Lớp: --" class="stat-sub" />
+                                <ui:VisualElement class="stat-icon-bg bg-blue">
+                                    <ui:Label text="👥" class="stat-icon" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Card 2: Class Switcher -->
+                            <ui:VisualElement name="CardClassSwitcher" class="dashboard-card card-green" style="justify-content: center; align-items: center; cursor: pointer;">
+                                <ui:Label text="🔄" style="font-size: 32px; margin-bottom: 5px;" />
+                                <ui:Label text="Đổi lớp" class="stat-label" style="-unity-text-align: middle-center;" />
+                                <ui:Label name="LblClassSwitcherSub" text="Chưa chọn lớp" class="stat-sub" style="-unity-text-align: middle-center; color: #888;" />
+                            </ui:VisualElement>
+
+                            <!-- Card 3: Absent (Warning) -->
+                            <ui:VisualElement name="CardAbsent" class="dashboard-card card-orange" style="cursor: pointer;">
+                                <ui:Label text="Vắng" class="stat-label" />
+                                <ui:Label name="LblStatAbsent" text="--" class="stat-value color-orange" />
+                                <ui:Label text="Cần chú ý" class="stat-sub" />
+                                <ui:VisualElement class="stat-icon-bg bg-orange">
+                                    <ui:Label text="⚠️" class="stat-icon" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- Card 4: Late (Danger) -->
+                            <ui:VisualElement class="dashboard-card card-red">
+                                <ui:Label text="Đi trễ" class="stat-label" />
+                                <ui:Label name="LblStatLate" text="--" class="stat-value color-red" />
+                                <ui:Label name="LblStatLateSub" text="Sau 07:00" class="stat-sub" />
+                                <ui:VisualElement class="stat-icon-bg bg-red">
+                                    <ui:Label text="⏰" class="stat-icon" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- ROW 2: CHARTS & ACTIONS -->
+                        <ui:VisualElement class="dashboard-row" style="height: 280px; margin-bottom: 20px;">
+                            <!-- LEFT: Attendance Trend (Fake Bar Chart) -->
+                            <ui:VisualElement class="dashboard-card" style="flex-grow: 2; margin-right: 20px;">
+                                <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <ui:Label text="Biểu đồ tham gia" class="card-title" />
+                                    <ui:DropdownField name="DrpChartWeekSelector" class="btn-dropdown" style="width: 120px;" />
+                                </ui:VisualElement>
+                                <!-- Fake Chart Container -->
+                                <ui:VisualElement class="chart-container">
+                                    <ui:VisualElement name="TrendChartCanvas" style="width: 100%; height: 100%;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- RIGHT: Quick Actions & Pie Chart -->
+                            <ui:VisualElement class="dashboard-card" style="flex-grow: 1; min-width: 280px;">
+                                <ui:Label text="Thao tác nhanh" class="card-title" style="margin-bottom: 20px;" />
+                                
+                                <ui:Button name="BtnQuickAttendance" class="btn-action-primary">
+                                    <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center; width: 100%;">
+                                        <ui:Label text="📸" style="font-size: 20px; margin-right: 8px;" />
+                                        <ui:Label text="Bắt đầu điểm danh" style="font-size: 14px; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:Button>
+
+                                <ui:Button name="BtnQuickAddStudent" class="btn-action-secondary">
+                                    <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center; width: 100%;">
+                                        <ui:Label text="👤" style="font-size: 18px; margin-right: 8px;" />
+                                        <ui:Label text="Thêm sinh viên mới" style="font-size: 14px; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:Button>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- ROW 3: RECENT ACTIVITIES / SCHEDULE -->
+                        <ui:VisualElement class="dashboard-card" style="flex-grow: 1; min-height: 180px; max-height: 220px;">
+                            <ui:Label text="Lịch trình hôm nay" class="card-title" />
+                            <ui:VisualElement class="table-header">
+                                <ui:Label text="Thời gian" class="col-time" />
+                                <ui:Label text="Môn học" class="col-subject" />
+                                <ui:Label text="Phòng" class="col-room" />
+                                <ui:Label text="Trạng thái" class="col-status" />
+                            </ui:VisualElement>
+                            <!-- Dynamic Container for Today's Schedule -->
+                            <ui:ScrollView name="TodayScheduleContainer" horizontal-scroller-visibility="Hidden" style="flex-grow: 1;">
+                                <!-- Will be populated by C# from schedule data -->
+                                <ui:Label name="LblNoScheduleToday" text="Chưa có lịch học hôm nay. Vào tab Lịch dạy để thêm." style="color: #636e72; font-size: 13px; padding: 20px; -unity-text-align: middle-center;" />
+                            </ui:ScrollView>
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+
+
+                    <!-- NEW ATTENDANCE MODE (Merged with History) -->
+                    <ui:VisualElement name="AttendanceContainer" style="display: none; flex-grow: 1;">
+                        
+                        <!-- Header Actions -->
+                        <ui:VisualElement class="card" style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <ui:Label text="Chế độ Điểm danh" style="font-size: 20px; -unity-font-style: bold;" />
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ui:Button name="BtnManualCheckin" class="btn-w220 btn-h40" text="📝 Điểm danh thủ công" style="padding: 0 20px; background-color: #0984E3; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; margin-right: 10px;" />
+                                <ui:Button name="BtnExportAttendanceExcel" class="btn-w220 btn-h40" text="📤 Xuất Excel" style="padding: 0 20px; background-color: #6c5ce7; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; margin-right: 10px;" />
+                                <ui:Button name="BtnFinalizeSession" class="btn-w220 btn-h40" text="✅ Chốt buổi" style="padding: 0 20px; background-color: #fdcb6e; color: #2d3436; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; margin-right: 10px;" />
+                                <ui:Button name="BtnToggleCameraAttendance" class="btn-w220 btn-h40" text="📷 BẬT CAMERA" style="padding: 0 20px; background-color: rgb(0, 184, 148); color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- FULL WIDTH: HISTORY LOG -->
+                        <ui:VisualElement class="card" style="flex-grow: 1; padding: 15px;">
+                            <ui:Label text="📋 Nhật ký điểm danh" class="card-title" style="margin-bottom: 15px; font-size: 18px;" />
+                            
+                            <!-- Log Header -->
+                            <ui:VisualElement class="log-header-row" style="background-color: #f1f2f6; border-radius: 6px; padding: 10px; flex-direction: row;">
+                                <ui:Label text="Sinh viên" style="flex: 2; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                                <ui:Label text="MSSV" style="flex: 1; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                                <ui:Label text="Thời gian" style="flex: 1; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                                <ui:Label text="Ngày" style="flex: 1; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                                <ui:Label text="Trạng thái" style="flex: 1; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                            </ui:VisualElement>
+
+                            <!-- Log List -->
+                            <ui:ListView name="MainListView" item-height="55" class="log-list-view" style="flex-grow: 1; margin-top: 10px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                    <ui:VisualElement name="StudentListContainer" class="card-white" style="display: none; height: 100%; padding: 20px;">
+                        <!-- Header Row with Title and Actions -->
+                        <ui:VisualElement style="flex-direction: row; justify-content: flex-start; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom-width: 1px; border-color: rgba(0,0,0,0.08);">
+                            <ui:VisualElement>
+                                <ui:Label text="📋 Danh sách sinh viên" style="font-size: 22px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label text="Quản lý danh sách lớp học" style="font-size: 13px; color: #636E72; margin-top: 4px;" />
+                            </ui:VisualElement>
+
+                            <!-- Spacer pushes buttons to right -->
+                            <ui:VisualElement style="flex-grow: 1;" />
+
+                            <ui:Button name="BtnImportStudent" style="flex-direction: row; align-items: center; padding: 12px 20px; background-color: #6c5ce7; border-radius: 10px; border-width: 0;">
+                                <ui:Label text="📂" style="font-size: 18px; margin-right: 8px; color: white;" />
+                                <ui:Label text="Nhập từ Excel" style="font-size: 14px; color: white; -unity-font-style: bold;" />
+                            </ui:Button>
+
+                            <ui:Button name="BtnConnectGoogle" style="flex-direction: row; align-items: center; padding: 12px 20px; background-color: #0984e3; border-radius: 10px; border-width: 0; margin-left: 10px;">
+                                <ui:Label text="🔗" style="font-size: 18px; margin-right: 8px; color: white;" />
+                                <ui:Label text="Kết nối Google" style="font-size: 14px; color: white; -unity-font-style: bold;" />
+                            </ui:Button>
+
+                            <!-- Open Google Sheet -->
+                            <ui:Button name="BtnOpenGoogleSheetStudentList" style="flex-direction: row; align-items: center; padding: 12px 20px; background-color: #ffffff; border-radius: 10px; border-width: 1px; border-color: #ced4da; margin-left: 10px;">
+                                <ui:Label text="📄" style="font-size: 18px; margin-right: 8px; color: #2d3436;" />
+                                <ui:Label text="Mở Google Sheet" style="font-size: 14px; color: #2d3436; -unity-font-style: bold;" />
+                            </ui:Button>
+
+                            <ui:Button name="BtnClearAllStudents" style="flex-direction: row; align-items: center; padding: 12px 20px; background-color: #e74c3c; border-radius: 10px; border-width: 0; margin-left: 10px;">
+                                <ui:Label text="🗑️" style="font-size: 18px; margin-right: 8px; color: white;" />
+                                <ui:Label text="Xóa tất cả" style="font-size: 14px; color: white; -unity-font-style: bold;" />
+                            </ui:Button>
+                        </ui:VisualElement>
+                        <!-- Search Bar -->
+                        <ui:VisualElement style="flex-direction: row; margin-bottom: 15px; align-items: center;">
+                            <ui:Label text="🔍" style="font-size: 18px; margin-right: 10px; color: #636e72;" />
+                            <ui:VisualElement style="flex: 1; background-color: white; border-width: 1px; border-color: #ced4da; border-radius: 8px; height: 40px; padding: 0 15px; justify-content: center;">
+                                <ui:TextField name="InpSearchStudent" placeholder-text="Tìm kiếm sinh viên (Tên, MSSV...)" style="font-size: 14px; background-color: transparent; border-width: 0;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        <!-- Student Header Row -->
+                        <ui:VisualElement style="background-color: #f1f2f6; border-radius: 6px; padding: 10px; flex-direction: row; margin-bottom: 8px;">
+                            <ui:Label text="STT" style="width: 55px; -unity-font-style: bold; color: #636e72; font-size: 14px; unity-text-align: middle-center;" />
+                            <ui:Label text="Họ và Tên" style="flex: 2; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                            <ui:Label text="MSSV" style="width: 100px; -unity-font-style: bold; color: #636e72; font-size: 14px;" />
+                            <ui:Label text="Trạng thái" style="width: 120px; -unity-font-style: bold; color: #636e72; font-size: 14px; unity-text-align: middle-center;" />
+                            <ui:Label text="" style="width: 90px;" />
+                        </ui:VisualElement>
+                        <!-- List View (now ScrollView for manual control) -->
+                        <ui:ScrollView name="StudentListScrollView" style="flex-grow: 1;">
+                            <ui:VisualElement name="StudentListContent" style="flex-direction: column;" />
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+
+                    <!-- 4. STATS MODE -->
+                    <ui:VisualElement name="StatsContainer" style="display: none; flex-grow: 1; flex-direction: column;">
+                        
+                        <!-- CLASS FILTER (Replace Year/Semester/Phase UI) -->
+                        <ui:VisualElement name="StatsClassBar" class="term-bar">
+                            <ui:VisualElement class="term-field" style="width: auto; flex-grow: 1;">
+                                <ui:Label text="Lớp" class="term-label" />
+                                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                    <ui:Button name="BtnStatsChangeClass" text="🔄 Đổi lớp" class="term-dropdown" style="width: 140px; margin-right: 12px;" />
+                                    <ui:Label name="LblStatsSelectedClass" text="Chưa chọn lớp" style="color: #636e72; font-size: 13px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- TERM / WEEK FILTER (Year - Semester - Week) - HIDDEN -->
+                        <ui:VisualElement name="TermWeekBar" class="term-bar" style="display: none;">
+                            <ui:VisualElement class="term-field">
+                                <ui:Label text="Năm học" class="term-label" />
+                                <ui:DropdownField name="DrpSchoolYear" class="term-dropdown" />
+                            </ui:VisualElement>
+
+                            <ui:VisualElement class="term-field">
+                                <ui:Label text="Học kỳ" class="term-label" />
+                                <ui:DropdownField name="DrpSemester" class="term-dropdown" />
+                            </ui:VisualElement>
+
+                            <ui:VisualElement class="term-field">
+                                <ui:Label text="Tuần" class="term-label" />
+                                <ui:DropdownField name="DrpChartWeekSelector" class="term-dropdown" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- PHASE (ĐỢT) DATE RANGE - HIDDEN -->
+                        <ui:VisualElement name="PhaseBar" class="phase-bar" style="display: none;">
+                            <ui:VisualElement class="phase-block">
+                                <ui:Label text="Đợt 1" class="term-label" />
+                                <ui:VisualElement class="phase-row">
+                                    <ui:VisualElement class="date-field">
+                                        <ui:Label text="Từ (dd/MM/yyyy)" class="mini-label" />
+                                        <ui:TextField name="InpPhase1Start" class="date-input" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="date-field">
+                                        <ui:Label text="Đến (dd/MM/yyyy)" class="mini-label" />
+                                        <ui:TextField name="InpPhase1End" class="date-input" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <ui:VisualElement class="phase-block">
+                                <ui:Label text="Đợt 2" class="term-label" />
+                                <ui:VisualElement class="phase-row">
+                                    <ui:VisualElement class="date-field">
+                                        <ui:Label text="Từ (dd/MM/yyyy)" class="mini-label" />
+                                        <ui:TextField name="InpPhase2Start" class="date-input" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="date-field">
+                                        <ui:Label text="Đến (dd/MM/yyyy)" class="mini-label" />
+                                        <ui:TextField name="InpPhase2End" class="date-input" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+
+                         <!-- Row 1: Charts + Rankings (New Layout) -->
+                        <ui:VisualElement style="flex-direction: row; margin-bottom: 20px;">
+
+                            <!-- LEFT: Charts -->
+                            <ui:VisualElement style="flex: 1; margin-right: 10px;">
+
+                                <!-- Chart A: Tổng quan (100% stacked bar) -->
+                                <ui:VisualElement class="dashboard-card" style="height: 150px; margin-bottom: 14px;">
+                                    <ui:Label text="Tổng quan điểm danh (đã chốt)" class="card-title" style="margin-bottom: 10px;" />
+
+                                    <!-- stacked bar will be drawn by C# -->
+                                    <ui:VisualElement name="PieChartContainer" style="width: 100%; height: 28px;" />
+
+                                    <!-- legend + values -->
+                                    <ui:VisualElement style="flex-direction: row; margin-top: 10px;">
+                                        <ui:VisualElement style="flex: 1; flex-direction: row; align-items: center;">
+                                            <ui:VisualElement style="width: 10px; height: 10px; background-color: #00b894; border-radius: 2px; margin-right: 6px;" />
+                                            <ui:Label text="Đúng giờ" style="color: #636E72; font-size: 12px;" />
+                                            <ui:Label name="LblPiePresent" text="0%" style="margin-left: auto; -unity-font-style: bold; color: #2d3436; font-size: 12px;" />
+                                        </ui:VisualElement>
+
+                                        <ui:VisualElement style="flex: 1; flex-direction: row; align-items: center; margin-left: 12px;">
+                                            <ui:VisualElement style="width: 10px; height: 10px; background-color: #d63031; border-radius: 2px; margin-right: 6px;" />
+                                            <ui:Label text="Trễ" style="color: #636E72; font-size: 12px;" />
+                                            <ui:Label name="LblPieLate" text="0%" style="margin-left: auto; -unity-font-style: bold; color: #2d3436; font-size: 12px;" />
+                                        </ui:VisualElement>
+
+                                        <ui:VisualElement style="flex: 1; flex-direction: row; align-items: center; margin-left: 12px;">
+                                            <ui:VisualElement style="width: 10px; height: 10px; background-color: #fdcb6e; border-radius: 2px; margin-right: 6px;" />
+                                            <ui:Label text="Vắng" style="color: #636E72; font-size: 12px;" />
+                                            <ui:Label name="LblPieAbsent" text="0%" style="margin-left: auto; -unity-font-style: bold; color: #2d3436; font-size: 12px;" />
+                                        </ui:VisualElement>
+                                    </ui:VisualElement>
+
+                                    <ui:Label name="LblOverviewHint" text="" style="margin-top: 8px; font-size: 11px; color: #636E72;" />
+                                </ui:VisualElement>
+
+                                <!-- Chart B: Xu hướng % có mặt (10 tuần) -->
+                                <ui:VisualElement class="dashboard-card" style="height: 180px;">
+                                    <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                        <ui:Label text="Xu hướng % có mặt (10 tuần)" class="card-title" />
+                                        <ui:Label name="LblWeeklyTrendValue" text="" class="card-title" style="color: #0984E3; font-size: 12px;" />
+                                    </ui:VisualElement>
+
+                                    <!-- line chart drawn by C# -->
+                                    <ui:VisualElement name="WeeklyTrendCanvas" style="width: 100%; height: 120px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <!-- RIGHT: Rankings -->
+                            <ui:VisualElement style="flex: 1; margin-left: 10px;">
+                                <ui:VisualElement class="dashboard-card" style="height: 170px; margin-bottom: 14px;">
+                                    <ui:Label text="Top Hay Trễ ⏰" class="card-title" style="color: #D63031;" />
+                                    <ui:ListView name="ListTopLate" item-height="40" style="flex-grow: 1; margin-top: 10px;" />
+                                </ui:VisualElement>
+
+                                <ui:VisualElement class="dashboard-card" style="height: 170px;">
+                                    <ui:Label text="Top Hay Vắng 🚫" class="card-title" style="color: #fdcb6e;" />
+                                    <ui:ListView name="ListTopAbsent" item-height="40" style="flex-grow: 1; margin-top: 10px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+
+                        <!-- Row 2.5: Latency (NEW) -->
+                        <ui:VisualElement class="dashboard-card" style="min-height: 240px; margin-bottom: 20px; padding: 18px;">
+                            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center;">
+                                <ui:Label text="Độ trễ dữ liệu ⏱️" class="card-title" />
+                                <ui:Label name="LblLatencyTotal" text="—" class="card-title" style="color: #0984E3; font-size: 18px;" />
+                            </ui:VisualElement>
+
+                            <ui:Label
+                                text="T_latency = T_detection + T_alignment + T_embedding + T_matching + T_network"
+                                style="font-size: 13px; color: #636E72; margin-top: 8px; margin-bottom: 12px; white-space: normal;" />
+
+                            <ui:VisualElement style="flex-direction: column; margin-top: 5px;">
+
+                                <ui:VisualElement style="flex-direction: row; margin-bottom: 8px; justify-content: space-between;">
+                                    <ui:Label text="T_detection (BlazeFace)" style="color:#636E72; font-size: 14px;" />
+                                    <ui:Label name="LblLatencyDetection" text="—" style="-unity-font-style: bold; color:#2d3436; font-size: 14px;" />
+                                </ui:VisualElement>
+
+                                <ui:VisualElement style="flex-direction: row; margin-bottom: 8px; justify-content: space-between;">
+                                    <ui:Label text="T_alignment (Crop)" style="color:#636E72; font-size: 14px;" />
+                                    <ui:Label name="LblLatencyAlignment" text="—" style="-unity-font-style: bold; color:#2d3436; font-size: 14px;" />
+                                </ui:VisualElement>
+
+                                <ui:VisualElement style="flex-direction: row; margin-bottom: 8px; justify-content: space-between;">
+                                    <ui:Label text="T_embedding (FaceNet512)" style="color:#636E72; font-size: 14px;" />
+                                    <ui:Label name="LblLatencyEmbedding" text="—" style="-unity-font-style: bold; color:#2d3436; font-size: 14px;" />
+                                </ui:VisualElement>
+
+                                <ui:VisualElement style="flex-direction: row; margin-bottom: 8px; justify-content: space-between;">
+                                    <ui:Label text="T_matching (FAISS)" style="color:#636E72; font-size: 14px;" />
+                                    <ui:Label name="LblLatencyMatching" text="—" style="-unity-font-style: bold; color:#2d3436; font-size: 14px;" />
+                                </ui:VisualElement>
+
+                                <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                                    <ui:Label text="T_network (RTT - Backend)" style="color:#636E72; font-size: 14px;" />
+                                    <ui:Label name="LblLatencyNetwork" text="—" style="-unity-font-style: bold; color:#2d3436; font-size: 14px;" />
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+
+                            <ui:Label
+                                name="LblLatencyNote"
+                                text="Đơn vị: ms (cập nhật realtime)"
+                                style="font-size: 12px; color: #95A5A6; margin-top: 15px; -unity-text-align: middle-right;" />
+                        </ui:VisualElement>
+
+                        <!-- Row 3: Export -->
+                        <ui:VisualElement style="flex-direction: row; justify-content: flex-end; margin-top: 20px;">
+                            <ui:Button name="BtnOpenGSheet" text="📊 Mở Google Sheets" class="btn-action-secondary btn-w220" style="margin-right: 10px; display: none;" />
+                            <ui:Button name="BtnExportCSV" text="Xuất báo cáo (Excel)" class="btn-action-primary btn-w220" style="display: none;" />
+                        </ui:VisualElement>
+                        
+                    </ui:VisualElement>
+
+                    <!-- 5. SCHEDULE MODE (Weekly Calendar View) -->
+                    <ui:VisualElement name="ScheduleContainer" class="card-white" style="display: none; flex-grow: 1; padding: 20px;">
+                        <!-- Header with Title and Action Buttons -->
+                        <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <ui:Label text="📅 Thời Khóa Biểu Tuần" style="font-size: 22px; -unity-font-style: bold; color: #2d3436;" />
+                            <ui:VisualElement style="flex-direction: row;">
+                                <ui:Button name="BtnImportSchedule" class="btn-w160" style="flex-direction: row; align-items: center; padding: 10px 16px; background-color: #6c5ce7; border-radius: 8px; border-width: 0; margin-right: 10px;">
+                                    <ui:Label text="📂" style="font-size: 16px; margin-right: 6px; color: white;" />
+                                    <ui:Label text="Nhập Excel" style="font-size: 13px; color: white; -unity-font-style: bold;" />
+                                </ui:Button>
+                                <ui:Button name="BtnAddSession" class="btn-w160" style="flex-direction: row; align-items: center; padding: 10px 16px; background-color: #00b894; border-radius: 8px; border-width: 0; margin-right: 10px;">
+                                    <ui:Label text="➕" style="font-size: 16px; margin-right: 6px; color: white;" />
+                                    <ui:Label text="Thêm buổi học" style="font-size: 13px; color: white; -unity-font-style: bold;" />
+                                </ui:Button>
+                                <ui:Button name="BtnClearSchedule" class="btn-w160" style="flex-direction: row; align-items: center; padding: 10px 16px; background-color: #d63031; border-radius: 8px; border-width: 0;">
+                                    <ui:Label text="🗑️" style="font-size: 16px; margin-right: 6px; color: white;" />
+                                    <ui:Label text="Xóa tất cả" style="font-size: 13px; color: white; -unity-font-style: bold;" />
+                                </ui:Button>
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+                        
+                        <!-- Header Row - Days of Week -->
+                        <ui:VisualElement style="flex-direction: row; margin-bottom: 2px;">
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay2Header" text="Thứ 2" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay2Date" text="06/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay3Header" text="Thứ 3" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay3Date" text="07/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay4Header" text="Thứ 4" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay4Date" text="08/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay5Header" text="Thứ 5" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay5Date" text="09/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay6Header" text="Thứ 6" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay6Date" text="10/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement class="schedule-header-cell" style="background-color: #f8f9fa; border-color: #dee2e6; border-width: 1px; padding: 12px; flex: 1; align-items: center;">
+                                <ui:Label name="LblDay7Header" text="Thứ 7" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                                <ui:Label name="LblDay7Date" text="11/01/2026" style="font-size: 12px; color: #636e72; margin-top: 2px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Schedule Body - ScrollView -->
+                        <ui:ScrollView style="flex-grow: 1;">
+                            <ui:VisualElement style="flex-direction: row; flex-grow: 1; align-items: flex-start;">
+                                <!-- Column: Thứ 2 -->
+                                <ui:VisualElement name="ScheduleCol2" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 1px; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <!-- Session Card Sample -->
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #fff3e0; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #ff9800;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_09CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 1-&gt;5" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #e3f2fd; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #2196f3;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_09CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+
+                                <!-- Column: Thứ 3 -->
+                                <ui:VisualElement name="ScheduleCol3" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 0; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #fff3e0; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #ff9800;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_10CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 1-&gt;5" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #e3f2fd; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #2196f3;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_10CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+
+                                <!-- Column: Thứ 4 -->
+                                <ui:VisualElement name="ScheduleCol4" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 0; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #e8f5e9; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #4caf50;">
+                                        <ui:Label text="-Môn: C Programming Language" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(CPRL130064E)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="CPRL130064E_09FIE" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: F1-507" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+
+                                <!-- Column: Thứ 5 -->
+                                <ui:VisualElement name="ScheduleCol5" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 0; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #fff3e0; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #ff9800;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_06" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 1-&gt;5" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #e3f2fd; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #2196f3;">
+                                        <ui:Label text="-Môn: TT Kiến trúc và tổ chức máy tính" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(COOL325364)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="COOL325364_06" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+
+                                <!-- Column: Thứ 6 -->
+                                <ui:VisualElement name="ScheduleCol6" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 0; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #ede7f6; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #9c27b0;">
+                                        <ui:Label text="-Môn: Hệ thống nhúng (CNKT-Máy Tính)" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(EMSY435664)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="EMSY435664_02" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 1-&gt;5" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: C501" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #e8f5e9; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #4caf50;">
+                                        <ui:Label text="-Môn: C Programming Language" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(CPRL130064E)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="CPRL130064E_08FIE" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: F1-404" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+
+                                <!-- Column: Thứ 7 -->
+                                <ui:VisualElement name="ScheduleCol7" style="flex: 1; border-color: #dee2e6; border-width: 0 1px 1px 0; padding: 8px; background-color: white; justify-content: flex-start;">
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #ede7f6; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #9c27b0;">
+                                        <ui:Label text="-Môn: Hệ thống nhúng (CNKT-Máy Tính)" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(EMSY435664)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="EMSY435664_09CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 1-&gt;5" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: A204" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                    <ui:VisualElement class="schedule-session-card" style="background-color: #fce4ec; border-radius: 6px; padding: 10px; margin-bottom: 8px; border-left-width: 3px; border-left-color: #e91e63;">
+                                        <ui:Label text="-Môn: Thực tập hệ thống nhúng" style="font-size: 11px; color: #2d3436; -unity-font-style: bold; white-space: normal;" />
+                                        <ui:Label text="(EMSL415664)" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="-Hệ: Đại học" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Mã lớp tín chỉ:" style="font-size: 10px; color: #636e72;" />
+                                        <ui:Label text="EMSL415664_01CLC" style="font-size: 10px; color: #0984e3; -unity-font-style: bold;" />
+                                        <ui:Label text="-Tiết: 7-&gt;11" style="font-size: 10px; color: #636e72; margin-top: 4px;" />
+                                        <ui:Label text="-Phòng: D304B" style="font-size: 10px; color: #d63031; -unity-font-style: bold;" />
+                                    </ui:VisualElement>
+                                </ui:VisualElement>
+                            </ui:VisualElement>
+                        </ui:ScrollView>
+                    </ui:VisualElement>
+
+                    <!-- 6. SETTINGS MODE (New) -->
+                    <ui:VisualElement name="SettingsContainer" class="card-white" style="display: none; flex-grow: 1; padding: 25px; overflow: scroll;">
+                        <ui:Label text="⚙️ Cài Đặt Hệ Thống" style="font-size: 22px; -unity-font-style: bold; margin-bottom: 25px; color: #2d3436;" />
+                        
+                        <!-- Section: Time Settings -->
+                        <ui:VisualElement style="margin-bottom: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+                            <ui:Label text="⏰ Cài đặt thời gian" style="font-size: 16px; -unity-font-style: bold; color: #2d3436; margin-bottom: 15px;" />
+                            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 15px;">
+                                <ui:Label text="Giờ vào lớp (Sau giờ này sẽ tính là Trễ):" style="color: #636E72; font-size: 13px; margin-right: 15px; width: 250px;" />
+                                <ui:TextField name="InpTimeStart" value="07:00" style="height: 40px; font-size: 16px; width: 120px;" />
+                            </ui:VisualElement>
+                            <ui:Button name="BtnSaveSettings" text="💾 Lưu Cài Đặt" class="btn-w220 btn-h40" style="align-self: flex-start; background-color: #00b894; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; margin-top: 10px;" />
+                        </ui:VisualElement>
+
+                        <!-- Section: Account -->
+    <ui:VisualElement style="margin-bottom: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+                            <ui:Label text="🔐 Tài khoản" style="font-size: 16px; -unity-font-style: bold; color: #2d3436; margin-bottom: 15px;" />
+                            <ui:Button name="BtnChangePasswordSettings" text="🔑 Đổi mật khẩu" class="btn-w220 btn-h40" style="background-color: #0984e3; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold;" />
+                        </ui:VisualElement>
+
+                        <!-- Section: Google Sheets -->
+                        <ui:VisualElement style="margin-bottom: 20px; padding: 20px; background-color: #f8f9fa; border-radius: 10px;">
+                            <ui:Label text="📄 Google Sheets" style="font-size: 16px; -unity-font-style: bold; color: #2d3436; margin-bottom: 10px;" />
+                            <ui:Label text="Kết nối Google để đồng bộ điểm danh lên Google Sheets." style="color: #636E72; font-size: 13px; margin-bottom: 12px;" />
+
+                            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                <ui:Button name="BtnConnectGoogle" text="🔗 Kết nối Google" class="btn-w220 btn-h40"
+                                           style="background-color: #00b894; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; margin-right: 10px;" />
+                                <ui:Button name="BtnOpenGSheet" text="📄 Mở Google Sheet" class="btn-w220 btn-h40"
+                                           style="display: none; background-color: #0984e3; color: white; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Section: Data Management - REMOVED -->
+
+                        <!-- Section: Contact / Support -->
+                        <ui:VisualElement style="margin-bottom: 20px; padding: 20px; background-color: #fff3e0; border-radius: 10px; border-left-width: 4px; border-left-color: #ff9800;">
+                            <ui:Label text="📞 Liên hệ hỗ trợ" style="font-size: 16px; -unity-font-style: bold; color: #2d3436; margin-bottom: 15px;" />
+                            <ui:Label text="Nếu có thắc mắc, vui lòng liên hệ:" style="color: #636E72; margin-bottom: 10px; font-size: 13px;" />
+                            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 8px;">
+                                <ui:Label text="📱 Zalo:" style="color: #2d3436; font-size: 14px; width: 80px; -unity-font-style: bold;" />
+                                <ui:Label text="0355587757" style="color: #0984e3; font-size: 14px;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement style="flex-direction: row; align-items: center;">
+                                <ui:Label text="📧 Gmail:" style="color: #2d3436; font-size: 14px; width: 80px; -unity-font-style: bold;" />
+                                <ui:Label text="huypham723012@gmail.com" style="color: #0984e3; font-size: 14px;" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
+
+                        <!-- Section: App Info -->
+                        <ui:VisualElement style="padding: 15px; background-color: #ecf0f1; border-radius: 10px; align-items: center;">
+                            <ui:Label text="ℹ️ Thông tin ứng dụng" style="font-size: 14px; -unity-font-style: bold; color: #636e72; margin-bottom: 8px;" />
+                            <ui:Label text="Hệ thống Điểm danh AI - HCMUTE" style="font-size: 13px; color: #2d3436;" />
+                            <ui:Label text="Phiên bản: 1.0.0" style="font-size: 12px; color: #636e72; margin-top: 3px;" />
+                            <ui:Label text="© 2026 Developed by Pham Gia Huy" style="font-size: 11px; color: #b2bec3; margin-top: 5px;" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+
+                </ui:VisualElement> <!-- End Info Column -->
+            </ui:VisualElement> <!-- End Workspace -->
+            
+            <!-- FLOATING CAMERA PREVIEW (Overlay on content-area) -->
+            <ui:VisualElement name="CameraPreview" class="camera-panel" style="display: none;">
+                <ui:Label name="LblStatus" text="Trạng thái: Đang chờ..." style="color: white; background-color: rgba(0, 0, 0, 0.5); padding: 10px; border-radius: 8px; align-self: flex-start;" />
+            </ui:VisualElement>
+
+        </ui:VisualElement> <!-- End Content Area -->
+    </ui:VisualElement> <!-- End Main Container -->
+            
+    <!-- POPUP MODAL CONTAINER (Overlay entire screen - Root Level) -->
+    <ui:VisualElement name="ModalContainer" style="position: absolute; width: 100%; height: 100%; display: none; align-items: center; justify-content: center; pointer-events: box-none;">
+        <!-- Content will be instantiated here and centered by this container or its children -->
+    </ui:VisualElement>
+
+    <!-- LOGIN SCREEN OVERLAY (HCM-UTE Style) -->
+    <ui:VisualElement name="LoginOverlay" style="position: absolute; width: 100%; height: 100%; background-color: #f1f2f6; align-items: center; justify-content: center; display: flex;">
+        
+        <!-- Header Brand -->
+        <ui:VisualElement style="align-items: center; margin-bottom: 30px;">
+            <!-- Logo Placeholder (Circle Blue) -->
+            <ui:VisualElement name="ContainerLogo" style="width: 80px; height: 80px; background-color: #0c4da2; border-radius: 50%; justify-content: center; align-items: center; margin-bottom: 10px;">
+                <ui:Label text="UTE" style="color: white; -unity-font-style: bold; font-size: 18px;" />
+            </ui:VisualElement>
+            
+            <ui:Label text="HCM-UTE" style="color: #0c4da2; font-size: 24px; -unity-font-style: bold; margin-bottom: 5px;" />
+            <ui:Label text="ĐẠI HỌC CÔNG NGHỆ KỸ THUẬT TP.HCM" style="color: #002b49; font-size: 18px; -unity-font-style: bold; text-transform: uppercase;" />
+        </ui:VisualElement>
+
+        <!-- Login Card -->
+        <ui:VisualElement style="width: 450px; background-color: white; border-radius: 4px; padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            
+            <ui:Label text="ĐĂNG NHẬP" style="color: #0c4da2; font-size: 24px; -unity-font-style: bold; margin-bottom: 5px;" />
+            <ui:Label text="Cổng thông tin đào tạo" style="color: #636e72; font-size: 14px; margin-bottom: 30px;" />
+
+            <!-- Input: Username -->
+            <ui:VisualElement style="margin-bottom: 20px;">
+                <ui:Label text="Tên đăng nhập" style="color: #2d3436; font-size: 13px; margin-bottom: 5px; -unity-font-style: bold;" />
+                <ui:VisualElement style="background-color: white; border-width: 1px; border-color: #ced4da; border-radius: 4px; padding: 0; height: 40px; justify-content: center;">
+                    <ui:TextField name="InpLoginUser" value="admin" style="font-size: 14px; background-color: transparent; border-width: 0; margin-left: 5px; margin-right: 5px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Input: Email (For Register) -->
+            <ui:VisualElement name="ContainerEmail" style="margin-bottom: 20px; display: none;">
+                <ui:Label text="Email (Gmail)" style="color: #2d3436; font-size: 13px; margin-bottom: 5px; -unity-font-style: bold;" />
+                <ui:VisualElement style="background-color: white; border-width: 1px; border-color: #ced4da; border-radius: 4px; padding: 0; height: 40px; justify-content: center;">
+                    <ui:TextField name="InpLoginEmail" style="font-size: 14px; background-color: transparent; border-width: 0; margin-left: 5px; margin-right: 5px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Input: Password -->
+            <ui:VisualElement style="margin-bottom: 30px;">
+                <ui:Label text="Mật khẩu" style="color: #2d3436; font-size: 13px; margin-bottom: 5px; -unity-font-style: bold;" />
+                <ui:VisualElement style="background-color: white; border-width: 1px; border-color: #ced4da; border-radius: 4px; padding: 0; height: 40px; justify-content: center;">
+                    <ui:TextField name="InpLoginPass" value="123456" password="true" style="font-size: 14px; background-color: transparent; border-width: 0; margin-left: 5px; margin-right: 5px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Button: Login -->
+            <ui:Button name="BtnLoginInfo" text="Đăng nhập" style="height: 40px; background-color: #005a8d; color: white; border-radius: 4px; font-size: 14px; -unity-font-style: bold; border-width: 0; margin-bottom: 10px;" />
+
+            <!-- Button: Google Login -->
+            <ui:Button name="BtnLoginGoogle" style="height: 40px; background-color: white; border-radius: 4px; border-width: 1px; border-color: #ced4da; margin-bottom: 20px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center; justify-content: center;">
+                    <ui:Label text="G" style="font-size: 18px; -unity-font-style: bold; margin-right: 10px; color: #4285f4;" />
+                    <ui:Label text="Đăng nhập với Google" style="font-size: 14px; -unity-font-style: bold; color: #2d3436;" />
+                </ui:VisualElement>
+            </ui:Button>
+
+            <!-- Footer Links -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; margin-top: 10px;">
+                <ui:Label name="LblForgotPassword" text="Quên mật khẩu?" style="color: #636e72; font-size: 13px; cursor: link;" />
+                <ui:Label name="LblRegister" text="Đăng ký tài khoản" style="color: #0c4da2; font-size: 13px; -unity-font-style: bold; cursor: link;" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+
+        <ui:Label text="© 2026 Developed by Pham Gia Huy" style="position: absolute; bottom: 20px; color: #b2bec3; font-size: 12px;" />
+
+    <!-- FORGOT PASSWORD MODAL (Hidden by default) -->
+    <ui:VisualElement name="ModalForgotPassword" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement style="width: 400px; background-color: white; border-radius: 8px; padding: 20px;">
+            <ui:Label text="QUÊN MẬT KHẨU" style="color: #0c4da2; font-size: 18px; -unity-font-style: bold; margin-bottom: 20px; align-self: center;" />
+            
+            <!-- STEP 1: SEND OTP -->
+            <ui:VisualElement name="StepSendOtp">
+                <ui:Label text="Nhập Email của bạn:" style="margin-bottom: 5px;" />
+                <ui:TextField name="InpForgotEmail" style="height: 40px; margin-bottom: 15px;" />
+                <ui:Button name="BtnSendOtp" text="Gửi mã OTP" style="height: 40px; background-color: #0c4da2; color: white; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <!-- STEP 2: VERIFY OTP & RESET -->
+            <ui:VisualElement name="StepResetPass" style="display: none;">
+                <ui:Label text="Nhập mã OTP (6 số):" style="margin-bottom: 5px;" />
+                <ui:TextField name="InpForgotOtp" style="height: 40px; margin-bottom: 10px;" />
+                <ui:Label text="Mật khẩu mới:" style="margin-bottom: 5px;" />
+                <ui:TextField name="InpForgotNewPass" password="true" style="height: 40px; margin-bottom: 15px;" />
+                <ui:Button name="BtnConfirmReset" text="Xác nhận đổi mật khẩu" style="height: 40px; background-color: #27ae60; color: white; -unity-font-style: bold;" />
+            </ui:VisualElement>
+            
+            <ui:Button name="BtnCloseForgot" text="Đóng" style="height: 35px; background-color: transparent; border-width: 0; color: #7f8c8d; margin-top: 10px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    </ui:VisualElement>
+    <!-- CHANGE PASSWORD MODAL (Hidden by default) -->
+    <ui:VisualElement name="ModalChangePassword" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement style="width: 400px; background-color: white; border-radius: 8px; padding: 20px;">
+            <ui:Label text="ĐỔI MẬT KHẨU" style="color: #0c4da2; font-size: 18px; -unity-font-style: bold; margin-bottom: 20px; align-self: center;" />
+            
+            <ui:Label text="Mật khẩu hiện tại:" style="margin-bottom: 5px;" />
+            <ui:TextField name="InpOldPass" password="true" style="height: 40px; margin-bottom: 10px;" />
+            
+            <ui:Label text="Mật khẩu mới:" style="margin-bottom: 5px;" />
+            <ui:TextField name="InpNewPass" password="true" style="height: 40px; margin-bottom: 10px;" />
+
+            <ui:Label text="Xác nhận mật khẩu mới:" style="margin-bottom: 5px;" />
+            <ui:TextField name="InpConfirmNewPass" password="true" style="height: 40px; margin-bottom: 20px;" />
+
+            <ui:Button name="BtnSubmitChangePass" text="Xác nhận" style="height: 40px; background-color: #0c4da2; color: white; -unity-font-style: bold; margin-bottom: 10px;" />
+            <ui:Button name="BtnCloseChangePass" text="Hủy bỏ" style="height: 35px; background-color: transparent; border-width: 0; color: #7f8c8d;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- MANUAL CHECKIN MODAL (Redesigned) -->
+    <ui:VisualElement name="ModalManualCheckin" style="position: absolute; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; display: none;">
+        <ui:VisualElement name="ManualCheckinCard" style="width: 800px; height: 80%; max-height: 700px; background-color: white; border-radius: 16px; flex-direction: column; overflow: hidden;">
+            
+            <!-- HEADER -->
+            <ui:VisualElement style="flex-shrink: 0; flex-direction: row; justify-content: space-between; align-items: center; padding: 20px 25px; background-color: #0984e3;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label text="📝" style="font-size: 24px; margin-right: 12px;" />
+                    <ui:Label text="Điểm danh thủ công" style="color: white; font-size: 22px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Button name="BtnCloseManualCheckin" text="✕" style="width: 40px; height: 40px; background-color: rgba(255,255,255,0.2); color: white; border-radius: 20px; border-width: 0; font-size: 20px;" />
+            </ui:VisualElement>
+
+            <!-- CONTROLS: Search + Status (Stacked for clarity) -->
+            <ui:VisualElement style="flex-shrink: 0; padding: 20px 25px; background-color: #f8f9fa; border-bottom-width: 1px; border-bottom-color: #e9ecef;">
+                <!-- Row 1: Search -->
+                <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 12px;">
+                    <ui:Label text="🔍 Tìm kiếm:" style="font-size: 14px; color: #2d3436; width: 100px; -unity-font-style: bold;" />
+                    <ui:VisualElement style="flex-grow: 1; background-color: white; border-width: 1px; border-color: #ced4da; border-radius: 8px; padding: 0 15px; height: 42px; justify-content: center;">
+                        <ui:TextField name="InpSearchManualCheckin" style="flex-grow: 1; font-size: 14px; background-color: transparent; border-width: 0;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                
+                <!-- Row 2: Status Dropdown -->
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label text="📋 Trạng thái:" style="font-size: 14px; color: #2d3436; width: 100px; -unity-font-style: bold;" />
+                    <ui:DropdownField name="DrpManualStatus" style="flex-grow: 1; height: 42px; max-width: 250px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- INFO BAR -->
+            <ui:VisualElement style="flex-shrink: 0; padding: 10px 25px; background-color: #e3f2fd; flex-direction: row; align-items: center;">
+                <ui:Label text="💡" style="font-size: 14px; margin-right: 8px;" />
+                <ui:Label text="Click vào dòng hoặc checkbox để chọn sinh viên" style="font-size: 13px; color: #1976d2;" />
+            </ui:VisualElement>
+
+            <!-- STUDENT LIST -->
+            <ui:ScrollView name="ManualCheckinStudentList" style="flex-grow: 1; padding: 10px 25px;">
+                <!-- Populated by C# -->
+            </ui:ScrollView>
+
+            <!-- FOOTER -->
+            <ui:VisualElement style="flex-shrink: 0; flex-direction: row; justify-content: space-between; align-items: center; padding: 18px 25px; background-color: #f8f9fa; border-top-width: 1px; border-top-color: #e9ecef;">
+                <ui:Label name="LblManualCheckinCount" text="✅ Đã chọn: 0 sinh viên" style="font-size: 15px; color: #2d3436; -unity-font-style: bold;" />
+                <ui:Button name="BtnConfirmManualCheckin" text="✔ Xác nhận điểm danh" style="height: 48px; padding: 0 35px; background-color: #00b894; color: white; border-radius: 10px; border-width: 0; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- CLASS PICKER MODAL -->
+    <ui:VisualElement name="ClassPickerOverlay" class="classpicker-overlay is-hidden">
+        <ui:VisualElement name="ClassPickerCard" class="classpicker-card">
+            <ui:Label name="ClassPickerTitle" text="🎓 Chọn Lớp Học" class="classpicker-title" />
+            <ui:ScrollView name="ClassPickerList" class="classpicker-scroll" horizontal-scroller-visibility="Hidden" />
+            <ui:Button name="BtnClassPickerClose" text="Đóng" class="classpicker-close" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+    <!-- LOGIN OVERLAY (Added) -->
+    <ui:VisualElement name="LoginContainer" style="position: absolute; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0.95); justify-content: center; align-items: center; display: none;">
+        <ui:VisualElement style="background-color: white; padding: 40px; border-radius: 20px; align-items: center; border-width: 1px; border-color: #ddd;">
+             <ui:Label text="ĐĂNG NHẬP" style="font-size: 24px; -unity-font-style: bold; color: #333; margin-bottom: 30px;" />
+             <ui:Button name="BtnLoginGoogle" text="🔐 Đăng nhập với Google"
+                   style="height: 44px; width: 250px; background-color: #4285F4; color: white; border-radius: 8px; font-size: 14px; -unity-font-style: bold; border-width: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+
+</ui:UXML>

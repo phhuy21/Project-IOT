@@ -1,0 +1,71 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <!-- Modal Overlay Background (White Opaque) -->
+    <ui:VisualElement name="ModalOverlay" class="modal-overlay" style="background-color: rgba(255, 255, 255, 0.9);">
+        <!-- Modal Card (Using shared class + custom width) -->
+        <ui:VisualElement name="ModalCard" class="modal-card" style="width: 600px; box-shadow: 0 10px 40px rgba(0,0,0,0.15);">
+            
+            <!-- Header -->
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+                <ui:Label text="Thêm Buổi Học" style="font-size: 24px; -unity-font-style: bold; color: #2d3436; margin: 0; padding: 0;" />
+                <ui:Button name="BtnCloseModal" text="✕" class="btn-close-icon" />
+            </ui:VisualElement>
+
+            <!-- Form Content -->
+            <ui:ScrollView mode="Vertical" style="min-height: 250px; max-height: 550px; flex-grow: 1; padding-right: 10px;">
+                
+                <!-- Section 1 -->
+                <ui:Label text="THÔNG TIN MÔN HỌC" style="font-size: 11px; color: #b2bec3; -unity-font-style: bold; margin-bottom: 15px; letter-spacing: 1px;" />
+                
+                <ui:VisualElement style="margin-bottom: 20px;">
+                    <ui:Label text="Tên môn học *" style="color: #2d3436; font-size: 14px; -unity-font-style: bold; margin-bottom: 8px;" />
+                    <ui:TextField name="InpSubjectName" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                </ui:VisualElement>
+
+                <ui:VisualElement style="flex-direction: row; margin-bottom: 25px;">
+                    <ui:VisualElement style="flex: 1; margin-right: 20px;">
+                        <ui:Label text="Mã môn học" style="color: #636e72; font-size: 14px; margin-bottom: 8px;" />
+                        <ui:TextField name="InpSubjectCode" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex: 1;">
+                        <ui:Label text="Mã lớp tín chỉ" style="color: #636e72; font-size: 14px; margin-bottom: 8px;" />
+                        <ui:TextField name="InpClassCode" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <!-- Section 2 -->
+                <ui:Label text="THỜI GIAN &amp; ĐỊA ĐIỂM" style="font-size: 11px; color: #b2bec3; -unity-font-style: bold; margin-bottom: 15px; margin-top: 5px; letter-spacing: 1px;" />
+
+                <ui:VisualElement style="flex-direction: row; margin-bottom: 20px;">
+                    <ui:VisualElement style="flex: 1; margin-right: 20px;">
+                        <ui:Label text="Thứ (2-7) *" style="color: #2d3436; font-size: 14px; -unity-font-style: bold; margin-bottom: 8px;" />
+                        <ui:TextField name="InpDayOfWeek" value="2" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex: 1;">
+                        <ui:Label text="Phòng học *" style="color: #2d3436; font-size: 14px; -unity-font-style: bold; margin-bottom: 8px;" />
+                        <ui:TextField name="InpRoom" placeholder-text="VD: A1-302" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+                <ui:VisualElement style="flex-direction: row; margin-bottom: 10px;">
+                    <ui:VisualElement style="flex: 1; margin-right: 20px;">
+                        <ui:Label text="Tiết học *" style="color: #2d3436; font-size: 14px; -unity-font-style: bold; margin-bottom: 8px;" />
+                        <ui:TextField name="InpPeriods" placeholder-text="VD: 1->5" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                        <ui:Label text="Ví dụ: 1->5 (Sáng)" style="font-size: 12px; color: #b2bec3; margin-top: 6px;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement style="flex: 1;">
+                        <ui:Label text="Hệ đào tạo" style="color: #636e72; font-size: 14px; margin-bottom: 8px;" />
+                        <ui:TextField name="InpLevel" value="Đại học" style="font-size: 14px; background-color: #ffffff; padding: 5px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+
+            </ui:ScrollView>
+
+            <!-- Footer: Actions -->
+            <ui:VisualElement style="flex-direction: row; justify-content: flex-end; padding-top: 25px; margin-top: 10px; border-top-width: 1px; border-top-color: #f5f6fa;">
+                <ui:Button name="BtnCancelSession" text="Hủy Bỏ" style="height: 45px; padding-left: 25px; padding-right: 25px; background-color: #ffffff; border-width: 1px; border-color: #dfe6e9; border-radius: 12px; font-size: 14px; color: #636e72; margin-right: 15px; -unity-font-style: bold;" />
+                <ui:Button name="BtnSaveSession" text="Lưu Thông Tin" style="height: 45px; padding-left: 25px; padding-right: 25px; background-color: #0984e3; border-radius: 12px; border-width: 0; font-size: 14px; color: white; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

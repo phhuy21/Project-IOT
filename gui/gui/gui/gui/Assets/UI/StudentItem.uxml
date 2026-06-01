@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement class="student-item row-item">
+        <!-- Avatar & Info -->
+        <ui:VisualElement style="flex-direction: row; align-items: center; flex-grow: 1;" picking-mode="Ignore">
+            <ui:VisualElement class="icon-box" picking-mode="Ignore">
+                <ui:Label name="LblAvatarChar" text="A" class="icon-text" picking-mode="Ignore" />
+            </ui:VisualElement>
+            <ui:VisualElement class="info-group" picking-mode="Ignore">
+                <ui:Label name="LblName" text="Nguyễn Văn A" class="text-title" picking-mode="Ignore" />
+                <ui:Label name="LblMssv" text="12345678" class="text-sub" picking-mode="Ignore" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <!-- Status & Action -->
+        <ui:VisualElement class="status-group" style="flex-direction: row; align-items: center;">
+            <ui:Label name="LblStatus" text="Đã đăng ký" class="status-registered" style="margin-right: 15px;" />
+            <ui:Button name="BtnDetail" text="Chi tiết" class="btn-detail" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

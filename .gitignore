@@ -1,0 +1,35 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+
+# Secrets and local config
+.env
+.env.*
+serviceAccountKey.json
+*.log
+
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+
+# IDE and local tooling
+.vscode/
+.vs/
+.idea/
+.agent/
+.claude/
+.codex/
+.plastic/
+
+# Archives and local exports
+*.rar
+*.zip

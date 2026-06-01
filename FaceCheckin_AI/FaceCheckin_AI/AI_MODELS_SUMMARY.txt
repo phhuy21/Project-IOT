@@ -1,0 +1,89 @@
+FACECHECKIN AI SYSTEM - MODEL & ALGORITHM AUDIT
+=================================================
+
+1. AI ARCHITECTURE OVERVIEW
+---------------------------
+The system follows a "Client-Server-Worker" architecture to optimize performance and cost:
+- Client (Unity): Real-time face tracking, UI, interaction.
+- Server (Cloud Run): Logic, Database, Search (Model-Free).
+- AI Worker (Modal): Heavy-lifting AI tasks (Detection, Recognition, Anti-Spoofing).
+
+2. AI MODELS (SERVER-SIDE / MODAL)
+----------------------------------
+These models run on high-performance GPUs (T4/A10G) via Modal:
+
+A. FACE DETECTION: RetinaFace
+   - Role: Locates faces in the image.
+   - Justification: Chosen over YuNet (OpenCV) for superior accuracy, especially with side faces, occlusion, and small faces.
+   - Configuration: fast_mode=True, confidence_threshold=0.9.
+
+B. FACE RECOGNITION: ArcFace (ResNet50 Backbone)
+   - Role: Extracts 512-dimensional embedding vectors from faces.
+   - Justification: State-of-the-art (SOTA) accuracy on LFW/CFP-FP datasets. Robust intra-class compactness and inter-class separability.
+   - Library: DeepFace.
+
+C. ANTI-SPOOFING: MiniFASNetV2 (Silent-Face-Anti-Spoofing)
+   - Role: Detects presentation attacks (screens, printed photos).
+   - Justification: Lightweight yet effective depth-based analysis.
+   - Threshold: 0.90 (Strict).
+
+D. IMAGE ENHANCEMENT: GFPGAN v1.3
+   - Role: Restores details in low-resolution or blurry face images.
+   - Justification: Critical for improving recognition accuracy on captured frames from webcams.
+   - Trigger: Optional, enabled for registration or low-quality verification attempts.
+
+E. CONTEXT / FRAUD DETECTION: YOLOv8n (Nano)
+   - Role: Detects objects like 'cell phone' and counts number of 'person'.
+   - Justification: Extremely fast. Used to flag suspicious behavior (e.g., using a phone during check-in, multiple people in frame).
+
+3. ALGORITHMS & LOGIC (SERVER-SIDE / MAIN)
+------------------------------------------
+These algorithms run on the CPU-optimized Cloud Run server:
+
+A. VECTOR SEARCH: FAISS (Facebook AI Similarity Search)
+   - Role: Fast similarity search for millions of face vectors.
+   - Metric: Inner Product (equivalent to Cosine Similarity for normalized vectors).
+   - Optimization: "Context-Aware" search (filters by Class/Teacher/Term before searching).
+
+B. QUALITY FILTER (MagFace Style Check)
+   - New Feature: Analyzes face confidence score from RetinaFace.
+   - Rule: Reject if confidence < 0.90 (indicates blur, extreme angle, or occlusion).
+   - Benefit: Prevents "garbage in, garbage out" scenarios.
+
+C. CONTINUOUS LEARNING
+   - New Feature: Automatically updates the reference face vector.
+   - Trigger: If Match Confidence > 98.0%.
+   - Mechanism: Appends new vector to Firestore (FIFO, max 15 vectors).
+   - Benefit: System adapts to aging, glasses, or lighting changes over time.
+
+D. MATCHING LOGIC
+   - Primary: Cosine Distance (Threshold < 0.40).
+   - Secondary: Ratio Test (BestMatch / SecondBestMatch < 0.9).
+   - L2 Normalization: All vectors are divided by their norm ( ||v|| ) before comparison.
+
+E. FACE ALIGNMENT
+   - Technique: Affine Transformation.
+   - Logic: Rotates and scales the face so eyes are horizontal and centered before recognition.
+
+4. CLIENT-SIDE AI (UNITY)
+-------------------------
+A. FACE TRACKING: MediaPipe Face Mesh
+   - Role: Real-time 468-point face landmark detection.
+   - Platform: On-device (Mobile/PC CPU).
+   - Justification: Provides immediate visible feedback (bounding box) without server latency. Used for "Liveness Check" UI (User must follow "Look Left/Right" instructions).
+
+5. LIBRARIES & TOOLS
+--------------------
+- DeepFace: Wrapper for ArcFace/RetinaFace.
+- OpenCV (cv2): Basic image processing (decoding, resizing).
+- PyTorch: Underlying engine for all Modal models.
+- NumPy: Vector math and matrix operations.
+- Firebase Admin SDK: NoSQL Database interaction.
+
+6. SECURITY SUMMARY
+-------------------
+- API Key Protection: Enforced on all endpoints.
+- Anti-Spoofing: Active (MediaPipe commands) + Passive (MiniFASNet).
+- Data Privacy: Images are processed in-memory and typically not stored (unless enabled for audit/learning). embeddings are anonymous vectors.
+
+Status: AUDITED & CONFIRMED [Latest]

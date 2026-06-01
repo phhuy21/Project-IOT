@@ -1,0 +1,76 @@
+=======================================================
+TỔNG HỢP CÔNG NGHỆ & THUẬT TOÁN AI (FACECHECKIN SYSTEM)
+=======================================================
+
+1. CÁC MÔ HÌNH AI (DEEP LEARNING MODELS) - CORE
+-----------------------------------------------
+a. Face Detection (Phát hiện khuôn mặt):
+   - Model: RetinaFace
+   - Vai trò: Tìm vị trí khuôn mặt trong khung hình kể cả khi bị che khuất, nghiêng, hoặc nhỏ.
+   - Đặc điểm: Chính xác nhất hiện nay (State-of-the-Art), tốt hơn MTCNN hay Haar Cascade cũ.
+
+b. Face Recognition (Nhận diện khuôn mặt):
+   - Model: ArcFace (Standard ResNet50 Backbone)
+   - Thư viện: DeepFace.
+   - Vai trò: Trích xuất đặc trưng khuôn mặt ra thành vector (512 chiều).
+   - Đặc điểm: Tối ưu hoá góc (Angular Margin Loss) giúp phân biệt người rất giống nhau cực tốt.
+
+c. Anti-Spoofing (Chống giả mạo):
+   - Model: MiniFASNet (Silent-Face-Anti-Spoofing)
+   - Vai trò: Mạng Deep Learning phân tích texture da để phát hiện màn hình điện thoại, giấy in, iPad.
+   - Thư viện: Tích hợp trong DeepFace (anti_spoofing=True).
+
+d. Context & Fraud Detection (Giám sát ngữ cảnh):
+   - Model: YOLOv8 (Nano version)
+   - Vai trò: Phát hiện vật thể "Cell Phone" (điện thoại) hoặc đếm số người trong khung hình (>1 người -> Cảnh báo).
+   - Đặc điểm: Siêu nhanh (Real-time).
+
+e. Image Enhancement (Làm nét ảnh):
+   - Model: GFPGAN (v1.3)
+   - Vai trò: Phục hồi chi tiết khuôn mặt từ ảnh mờ, ảnh vỡ nét (Upscale).
+   - Lưu ý: Dùng thận trọng để tránh AI "vẽ bịa" (hallucination).
+
+f. Client-Side Landmarks & Pose (Tại Unity):
+   - Model: MediaPipe Face Mesh
+   - Vai trò: Chạy trực tiếp trên máy người dùng (Edge AI). Vẽ lưới 468 điểm trên mặt siêu nhanh.
+   - Ứng dụng: Xác nhận "Có khuôn mặt" tức thì để hiện khung xanh (Tracking) trước khi gửi lên Server.
+
+2. CÁC THUẬT TOÁN & LOGIC (ALGORITHMS)
+--------------------------------------
+a. Vector Search Engine (Tìm kiếm):
+   - Công nghệ: FAISS (Facebook AI Similarity Search).
+   - Cấu hình: IndexFlatL2 (hoặc IndexFlatIP cho Cosine) - Tìm kiếm chính xác tuyệt đối.
+   - Logic nâng cao: Context-Aware Search (Chỉ tìm vector trong phạm vi Lớp học/Giáo viên cụ thể).
+
+b. Client-Side Tracking (Theo dõi khuôn mặt):
+   - Thuật toán: IoU (Intersection over Union).
+   - Logic: Nếu vùng khuôn mặt mới trùng lặp > 50% với vùng cũ -> Coi là cùng 1 người -> Lock kết quả (Không gửi request lên Server nữa).
+   - Lợi ích: Tăng FPS, tiết kiệm chi phí Server.
+
+c. Quality Filter (Lọc chất lượng đầu vào):
+   - Logic: MagFace-style Filter.
+   - Cơ chế: Nếu Confidence Score từ RetinaFace < 0.90 -> Từ chối xử lý. Giúp loại bỏ rác (Garbage In).
+
+d. Continuous Learning (Học tập liên tục):
+   - Logic: Auto-Labeling.
+   - Cơ chế: Nếu nhận diện khớp > 98% -> Tự động dùng vector đó train ngược lại cho model (lưu vào Profile).
+
+e. Pre-processing Algorithms (Tiền xử lý):
+   - Face Alignment: Dùng Affine Transformation để xoay mặt sao cho 2 mắt nằm ngang hàng. (Giúp ArcFace nhận diện chính xác kể cả khi nghiêng đầu).
+   - L2 Normalization: Chuẩn hóa vector unit length trước khi so sánh Cosine.
+
+3. CÁC THƯ VIỆN & CÔNG NGHỆ BỔ TRỢ (SUPPORT LIBRARIES)
+------------------------------------------------------
+a. OpenCV (cv2):
+   - Vai trò: Xử lý ảnh cơ bản (Đọc, Decode, Resize) trước khi đưa vào AI.
+   - Lưu ý: Dự án KHÔNG dùng model YuNet của OpenCV để detect mặt, mà dùng **RetinaFace** vì RetinaFace chính xác hơn nhiều trong môi trường thực tế (sinh viên đeo khẩu trang, nghiêng mặt).
+
+4. KIẾN TRÚC HỆ THỐNG
+---------------------
+- Modal (GPU Worker): Chạy nặng (RetinaFace, ArcFace, YOLO, GFPGAN) trên GPU T4.
+- Cloud Run (Server): Chạy nhẹ (Logic, FAISS Search, Database) trên CPU.
+  > KHÔNG chạy Heavy AI Model nào. Toàn bộ Deep Learning đã đẩy sang Modal.
+  > Logic: Chỉ thực hiện FAISS Search (Vector) & Matching Rule (Toán học).
+- Unity (Client): Chuyển động mượt (Tracking IoU), gửi ảnh.
+
+=======================================================

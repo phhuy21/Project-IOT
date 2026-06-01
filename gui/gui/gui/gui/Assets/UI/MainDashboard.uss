@@ -1,0 +1,1269 @@
+/* MainDashboard.uss */
+
+/* 1. Nền tổng thể */
+.main-container {
+    width: 100%;
+    height: 100%;
+    flex-direction: row; /* Chia cột trái phải */
+    background-color: #F2F4F8; /* Màu xám sáng hiện đại */
+    padding: 20px;
+}
+
+/* 2. Cột Menu bên trái (Sidebar) */
+.sidebar {
+    width: 80px;
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    margin-right: 20px;
+    align-items: center;
+    padding-top: 30px;
+    /* Đổ bóng nhẹ (Unity 2022+) */
+    border-right-width: 1px;
+    border-right-color: rgba(0,0,0,0.05);
+}
+
+/* ICON SVG (thay emoji) */
+.menu-icon {
+    width: 22px;
+    height: 22px;
+    margin-right: 12px;
+    background-color: transparent;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: #8a8a8a;
+}
+
+/* Map class -> file SVG (Lucide icons) - relative paths */
+.icon-home       { background-image: url("Icons/Lucide/layout-dashboard.svg"); }
+.icon-register   { background-image: url("Icons/Lucide/user-plus.svg"); }
+.icon-attendance { background-image: url("Icons/Lucide/scan-face.svg"); }
+.icon-classlist  { background-image: url("Icons/Lucide/contact.svg"); }
+.icon-stats      { background-image: url("Icons/Lucide/chart-column.svg"); }
+.icon-schedule   { background-image: url("Icons/Lucide/calendar.svg"); }
+.icon-settings   { background-image: url("Icons/Lucide/settings.svg"); }
+.icon-logout     { background-image: url("Icons/Lucide/log-out.svg"); }
+
+/* 3. Khu vực chính bên phải */
+.content-area {
+    flex-grow: 1; /* Chiếm hết chỗ còn lại */
+    flex-direction: column;
+}
+
+/* Header */
+.header {
+    height: 60px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.header-title {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: #2D3436;
+}
+
+/* 4. Vùng làm việc (Chia cột Camera & Info) */
+.workspace {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+/* Khung Camera (Quan trọng) */
+.camera-panel {
+    flex-grow: 2; /* Rộng gấp đôi bên phải */
+    background-color: #000000; /* Nền đen để hiện cam */
+    border-radius: 24px;
+    margin-right: 20px;
+    overflow: hidden; /* Cắt góc video thừa */
+    justify-content: flex-end; /* Đẩy chữ xuống đáy */
+    padding: 20px;
+}
+
+/* Cột thông tin bên phải */
+.info-column {
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Thẻ con (Card) */
+.card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 20px;
+    height: 32%; /* Chia đều chiều cao */
+    justify-content: center;
+}
+
+
+/* --- SUBIFY STYLE UPDATE --- */
+
+.card-white {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 20px;
+    margin-top: 20px;
+    /* Bóng đổ nhẹ giống ảnh */
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0,0,0,0.05);
+}
+
+/* Container của 1 dòng */
+.row-item {
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+    padding: 12px 0px;
+    border-bottom-width: 1px;
+    border-bottom-color: #F0F0F0;
+    height: 70px;
+    
+    /* [NEW] Hover Animation */
+    transition-duration: 0.2s;
+    transition-property: background-color, translate, scale;
+}
+.row-item:hover {
+    background-color: #FFFFFF;
+    translate: 0 -2px;
+    scale: 1.01;
+    border-left-width: 3px;
+    border-left-color: #00B894;
+    border-radius: 6px;
+}
+
+/* 1. Icon Avatar (Giống icon Figma/Adobe) */
+.icon-box {
+    width: 48px; height: 48px;
+    background-color: #F8F9FA; /* Xám rất nhạt */
+    border-radius: 12px; /* Bo góc vuông mềm */
+    justify-content: center;
+    align-items: center;
+    margin-right: 15px;
+}
+.icon-text {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: #333;
+}
+
+/* 2. Text Thông tin */
+.info-group {
+    flex-grow: 1; /* Đẩy cột phải ra xa */
+    justify-content: center;
+}
+.text-title {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: #1A1A1A;
+    margin-bottom: 2px;
+}
+.text-sub {
+    font-size: 12px;
+    color: #888888;
+}
+
+/* 3. Cột bên phải (Trạng thái) */
+.status-group {
+    align-items: flex-end; /* Căn lề phải */
+    justify-content: center;
+}
+.text-status {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: #1A1A1A;
+}
+.text-sub-right {
+    font-size: 11px;
+    color: #999;
+}
+
+/* Màu trạng thái (Sẽ add class bằng code C#) */
+.status-late { color: #E74C3C; } /* Đỏ */
+.status-ontime { color: #27AE60; } /* Xanh lá */
+
+/* --- STYLE CHO NÚT SIDEBAR --- */
+
+.icon-btn {
+    width: 44px; height: 44px;
+    background-color: #ECECEC;
+    border-radius: 14px;
+    margin-bottom: 20px;
+    border-width: 0; /* Xóa viền nút mặc định */
+}
+
+/* Style riêng cho nút Add Face */
+.btn-add-face {
+    background-color: #E8F5E9; /* Nền xanh lá nhạt */
+    color: #2E7D32;            /* Chữ xanh lá đậm */
+    font-size: 30px;           /* Dấu cộng to rõ */
+    -unity-font-style: bold;
+    border-width: 0;
+    margin-top: 20px;          /* Cách các nút trên một chút */
+}
+
+.btn-add-face:hover {
+    background-color: #4CAF50; /* Hover thành màu xanh đậm */
+    color: #FFFFFF;            /* Chữ trắng */
+    scale: 1.1;                /* Phóng to nhẹ */
+    transition-duration: 0.2s;
+}
+
+
+/* --- SIDEBAR WIDE (SUBIFY STYLE) --- */
+
+.sidebar-wide {
+    width: 260px;
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    margin-right: 20px;
+    padding: 30px 20px;
+    display: flex;
+    flex-direction: column;
+    transition-duration: 0.18s;
+    transition-property: width, padding;
+}
+
+/* Nút thu gọn sidebar */
+.sidebar-toggle {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border-width: 0;
+    background-color: #F1F2F6;
+    color: #2D3436;
+    -unity-text-align: middle-center;
+    font-size: 16px;
+}
+
+.sidebar-toggle:hover {
+    background-color: #DFE6E9;
+}
+
+/* ===== COLLAPSED MODE ===== */
+.sidebar-wide.sidebar--collapsed {
+    width: 92px;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+.sidebar-wide.sidebar--collapsed .logo-text {
+    display: none;
+}
+
+.sidebar-wide.sidebar--collapsed .menu-text {
+    display: none;
+}
+
+.sidebar-wide.sidebar--collapsed .menu-item {
+    padding-left: 0;
+    justify-content: center;
+    height: 60px;
+    border-radius: 999px;
+}
+
+.sidebar-wide.sidebar--collapsed .menu-icon {
+    margin-right: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+}
+
+/* collapsed: active chỉ highlight ở icon */
+.sidebar-wide.sidebar--collapsed .menu-item.active {
+    background-color: transparent;
+}
+
+.sidebar-wide.sidebar--collapsed .menu-item.active .menu-icon {
+    background-color: #2D3436;
+    -unity-background-image-tint-color: #FFFFFF;
+}
+
+.logo-text {
+    font-size: 28px;
+    -unity-font-style: bold;
+    color: #111;
+    margin-bottom: 40px;
+    margin-left: 10px;
+}
+
+.menu-item {
+    flex-direction: row;
+    height: 50px;
+    align-items: center;
+    background-color: rgba(0,0,0,0); /* Transparent */
+    border-width: 0;
+    border-radius: 12px;
+    padding-left: 15px;
+    margin-bottom: 5px;
+}
+
+.menu-item:hover {
+    background-color: #F5F5F5;
+}
+
+.menu-item.active {
+    background-color: #2D3436; /* Black active */
+}
+
+.menu-text {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: #888; /* Gray default */
+    margin-left: 10px;
+}
+
+.menu-item.active .menu-text {
+    color: #FFFFFF; /* White text active */
+}
+
+/* Icon active state: chuyển trắng */
+.menu-item.active .menu-icon {
+    -unity-background-image-tint-color: #FFFFFF;
+}
+
+/* Camera Toggle Styles */
+.btn-camera-off {
+    background-color: #FF7675; /* Red */
+    color: white;
+}
+
+/* --- STUDENT LIST ITEM --- */
+.student-item {
+    height: 70px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px; padding-right: 20px;
+    border-bottom-width: 1px;
+    border-bottom-color: #F0F0F0;
+    background-color: transparent;
+    
+    /* [NEW] Smooth transition for all hover effects */
+    transition-duration: 0.35s; /* Tăng từ 0.2s lên 0.35s cho mượt hơn */
+    transition-timing-function: ease-in-out;
+    transition-property: background-color, translate, scale, border-color, border-left-width;
+}
+.student-item:hover {
+    background-color: #FFFFFF;
+    translate: 0 -3px;
+    scale: 1.01;
+    border-left-width: 4px;
+    border-left-color: #0984E3;
+    border-radius: 8px;
+}
+
+/* [FIX] Ngăn child elements gây flicker - giữ font đậm khi hover */
+.student-item:hover .text-title {
+    -unity-font-style: bold;
+}
+.student-item:hover .icon-box {
+    background-color: #E1F1FF;
+}
+
+.status-registered {
+    font-size: 14px;
+    color: #0984E3;
+    background-color: #E1F1FF;
+    padding: 6px 12px;
+    border-radius: 20px;
+    -unity-font-style: bold;
+    transition-duration: 0.15s;
+}
+.status-registered:hover {
+    background-color: #0984E3;
+    color: white;
+    scale: 1.05;
+}
+
+.btn-detail {
+    background-color: transparent;
+    border-width: 1px;
+    border-color: #DFE6E9;
+    color: #636E72;
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition-duration: 0.15s;
+    transition-timing-function: ease-out-back;
+}
+.btn-detail:hover {
+    background-color: #2D3436;
+    color: white;
+    scale: 1.08;
+    translate: 0 -2px;
+}
+
+/* --- Modal Popup --- */
+.modal-overlay {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-card {
+    background-color: white;
+    width: 550px;
+    border-radius: 20px;
+    padding: 25px;
+    align-items: stretch;
+    
+    /* [NEW] Entry Animation */
+    transition-duration: 0.3s;
+    transition-timing-function: ease-out-back;
+    transition-property: scale, opacity;
+}
+
+/* Modal Scale-Up Animation Classes */
+.modal-hidden {
+    scale: 0.8;
+    opacity: 0;
+}
+
+.modal-visible {
+    scale: 1;
+    opacity: 1;
+}
+
+/* Button Press Effect (Active State) */
+.btn-press {
+    transition-duration: 0.1s;
+}
+.btn-press:active {
+    scale: 0.95;
+    opacity: 0.8;
+}
+
+/* Card Lift on Hover */
+.card-lift {
+    transition-duration: 0.25s;
+    transition-timing-function: ease-out;
+    transition-property: translate, box-shadow;
+}
+.card-lift:hover {
+    translate: 0 -5px; /* Nâng lên 5px */
+}
+
+.btn-close-icon {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border-width: 0;
+    font-size: 20px;
+    color: #B2BEC3;
+    -unity-font-style: bold;
+}
+
+.btn-close-icon:hover {
+    color: #2D3436;
+}
+
+/* Avatar Square Container */
+.avatar-square-container {
+    width: 140px;
+    height: 140px;
+    background-color: #B2BEC3;
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+/* Warning Tags */
+.warning-tag {
+    background-color: #ffeaa7;
+    color: #e17055;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    -unity-font-style: bold;
+}
+
+.warning-tag-severe {
+    background-color: #ff7675;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    -unity-font-style: bold;
+}
+
+.btn-delete-red {
+    background-color: #FFEEEE;
+    color: #D63031;
+    border-width: 0;
+    border-radius: 8px;
+    padding: 10px;
+    -unity-font-style: bold;
+    font-size: 14px;
+}
+
+.btn-delete-red:hover {
+    background-color: #FFD2D2;
+}
+
+/* --- FLOATING CAMERA PANEL --- */
+.camera-panel {
+    /* Mặc định được điều khiển bởi C# (display: none/flex) */
+    width: 640px; 
+    height: 480px;
+    background-color: black;
+    border-radius: 20px;
+    overflow: hidden;
+    
+    /* Floating Style: Absolute Center */
+    position: absolute;
+    top: 50%; left: 50%;
+    translate: -50% -50%;
+    
+    /* Shadow & Border */
+    border-width: 4px;
+    /* Note: box-shadow not supported in Unity UI Toolkit */
+}
+
+/* --- ANIMATIONS (Web-like) --- */
+
+/* 1. Fade In & Slide Up Entry */
+.fade-in-hidden {
+    opacity: 0;
+    translate: 0 30px; /* Bắt đầu từ dưới một chút */
+    transition-property: opacity, translate;
+    transition-duration: 0.0s; /* Tắt transition để reset nhanh */
+}
+
+.fade-in-active {
+    opacity: 1;
+    translate: 0 0;
+    transition-property: opacity, translate;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-back; /* Hiệu ứng nảy nhẹ */
+}
+
+/* 2. Hover Effects Enhancement */
+.menu-item {
+    transition-duration: 0.2s;
+    transition-property: background-color, scale;
+}
+.menu-item:hover {
+    scale: 1.05; /* Phóng to nhẹ khi hover */
+}
+
+.student-item {
+    transition-duration: 0.2s;
+    transition-property: background-color, scale, translate;
+}
+.student-item:hover {
+    background-color: #FFF;
+    scale: 1.02;
+    translate: 5px 0; /* Di chuyển sang phải một chút */
+    /* Note: box-shadow not supported - using border for subtle effect */
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0,0,0,0.08);
+}
+
+.btn-hover-scale {
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out-back;
+}
+.btn-hover-scale:hover {
+    scale: 1.1;
+}
+
+/* --- CUSTOM SCROLLBAR (Mac OS / iOS Style) --- */
+
+/* 1. Ẩn nút mũi tên lên/xuống */
+.unity-scroller__low-button,
+.unity-scroller__high-button {
+    display: none;
+    height: 0;
+    width: 0;
+}
+
+/* 2. Container của thanh trượt */
+.unity-scroller--vertical {
+    width: 12px; /* Độ rộng tổng thể */
+    border-width: 0;
+    background-color: transparent; /* Nền trong suốt */
+}
+
+/* 3. Đường ray (Track) */
+.unity-scroller__slider {
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: transparent; /* Không màu hoặc xám rất nhạt */
+}
+
+/* 4. Thanh kéo (Thumb/Dragger) - Làm tròn & Đổi màu */
+.unity-scroller .unity-scroller__dragger,
+.unity-scroller--vertical .unity-scroller__dragger,
+Scroller .unity-scroller__dragger,
+* .unity-scroller__dragger {
+    width: 6px; 
+    left: 3px;
+    border-radius: 10px;
+    background-color: #B2BEC3; 
+    background-image: none; /* [KEY] Xóa hình nền mặc định của Unity */
+    border-width: 0;
+    margin: 0;
+    padding: 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    -unity-background-image-tint-color: rgba(0,0,0,0); /* Ẩn tint */
+}
+
+/* Hiệu ứng khi di chuột vào thanh kéo */
+.unity-scroller .unity-scroller__dragger:hover,
+.unity-scroller--vertical .unity-scroller__dragger:hover,
+* .unity-scroller__dragger:hover {
+    background-color: #636E72;
+    scale: 1.1;
+    border-radius: 10px;
+    background-image: none;
+}
+
+/* Thanh kéo của List View nói chung */
+.unity-scroll-view__content-container {
+    /* Đảm bảo nội dung không bị che */
+    padding-right: 5px; 
+}
+
+/* --- DASHBOARD REDESIGN (ROW/GRID) --- */
+
+.dashboard-row {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+/* Base Card Style (White, Rounded, Shadow) */
+.dashboard-card {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+    /* Soft shadow via border bottom */
+    border-bottom-width: 3px;
+    border-bottom-color: rgba(0,0,0,0.05);
+    
+    transition-duration: 0.2s;
+    transition-property: scale, translate;
+}
+
+/* Hover Effect for Dashboard Cards */
+.dashboard-card:hover {
+    scale: 1.01;
+    translate: 0 -3px;
+    background-color: #FFF; /* Ensure white bg */
+}
+
+/* --- STATS CARDS (Row 1) --- */
+.card-blue { width: 23%; border-left-width: 4px; border-left-color: #0984E3; }
+.card-green { width: 23%; border-left-width: 4px; border-left-color: #00B894; }
+.card-orange { width: 23%; border-left-width: 4px; border-left-color: #fdcb6e; }
+.card-red { width: 23%; border-left-width: 4px; border-left-color: #ff7675; }
+
+/* --- CHART TOOLTIP --- */
+.chart-tooltip {
+    position: absolute;
+    background-color: rgba(45, 52, 54, 0.95); /* Dark background */
+    border-radius: 8px;
+    padding: 8px 12px;
+    align-items: center;
+    justify-content: center;
+    border-width: 0;
+    /* transition: opacity 0.2s; - Optional fade */
+}
+
+.tooltip-date {
+    color: #dfe6e9; /* Light gray */
+    font-size: 11px;
+    -unity-font-style: italic;
+    margin-bottom: 2px;
+}
+
+.tooltip-count {
+    color: #ffffff;
+    font-size: 14px;
+    -unity-font-style: bold;
+}
+
+/* Ensure chart container allows absolute children positioning relative to it */
+.chart-container {
+    /* flex info already exists, just ensuring relative context if needed, 
+       but for absolute children usually parent needs position relative? 
+       In UI Toolkit, absolute is relative to parent. */
+}
+
+/* --- STAT CARDS (Row 1) --- */
+
+.stat-label {
+    font-size: 14px;
+    color: #636E72;
+    -unity-font-style: bold;
+    margin-bottom: 5px;
+}
+
+.stat-value {
+    font-size: 32px;
+    -unity-font-style: bold;
+    color: #2D3436;
+    margin-bottom: 5px;
+}
+
+/* Value colors */
+.color-green { color: #00B894; }
+.color-orange { color: #fdcb6e; }
+.color-red { color: #ff7675; }
+
+.stat-sub {
+    font-size: 12px;
+    color: #B2BEC3;
+}
+
+/* Icon Background Circle */
+.stat-icon-bg {
+    position: absolute;
+    top: 15px; right: 15px;
+    width: 40px; height: 40px;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.15; /* Transparent background */
+}
+.bg-blue { background-color: #0984E3; }
+.bg-green { background-color: #00B894; }
+.bg-orange { background-color: #fdcb6e; }
+.bg-red { background-color: #ff7675; }
+
+.stat-icon {
+    font-size: 20px;
+    color: #000;
+}
+
+/* --- CHARTS (Row 2) --- */
+.card-title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: #2D3436;
+}
+
+.btn-dropdown {
+    background-color: #F1F2F6;
+    border-radius: 8px;
+    padding: 5px 10px;
+    color: #636E72;
+    font-size: 12px;
+    border-width: 0;
+}
+
+.chart-container {
+    flex-grow: 1;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.chart-bar-group {
+    align-items: center;
+    width: 10%;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.chart-bar {
+    width: 100%;
+    /* background-color: #DFE6E9;  <-- Remove background, as segments will fill it */
+    border-radius: 6px;
+    overflow: hidden; /* Ensure rounded corners clip segments */
+    flex-direction: column; /* Stack segments vertically (Late on top? No, usually start from top?) */
+    /* If we want Stacked: Top = Late, Bottom = OnTime. 
+       Flex-direction: column. 
+       Items order: First child at top. 
+       So .segment-late first, then .segment-ontime. */
+    justify-content: flex-end; /* Align to bottom if total height < 100% (Not needed if bar height changes) */
+    
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-back;
+}
+.chart-bar:hover {
+    scale: 1.1;
+}
+
+.bar-segment {
+    width: 100%;
+    transition-duration: 0.3s;
+}
+
+.segment-absent {
+    background-color: #fdcb6e; /* Yellow */
+}
+.segment-absent:hover {
+    background-color: #e1b12c; /* Darker Yellow */
+}
+
+.segment-late {
+    background-color: #ff7675; /* Soft Red */
+}
+.segment-late:hover {
+    background-color: #d63031; /* Darker Red */
+}
+
+.segment-ontime {
+    background-color: #00B894; /* Green */
+}
+.segment-ontime:hover {
+    background-color: #00a884; /* Darker Green */
+}
+
+/* STATISTICS ELEMENTS */
+.stats-overview-bar-container {
+    background-color: #f1f2f6;
+}
+
+.chart-bar-group {
+    height: 100%;
+    width: 14%; /* 5 bars + spacing */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.chart-label {
+    font-size: 12px;
+    color: #636E72;
+    margin-top: 5px;
+}
+
+.btn-action-primary {
+    width: 100%;
+    height: 48px;
+    background-color: #00B894; /* Green */
+    border-radius: 12px;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    border-width: 0;
+    margin-bottom: 10px;
+    transition-duration: 0.2s;
+}
+.btn-action-primary:hover {
+    scale: 1.05;
+    background-color: #019E7E;
+}
+
+.btn-action-secondary {
+    width: 100%;
+    height: 48px;
+    background-color: #F1F2F6;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    color: #636E72;
+    border-width: 0;
+    -unity-font-style: bold;
+    transition-duration: 0.2s;
+}
+.btn-action-secondary:hover {
+    background-color: #DFE6E9;
+    color: #2D3436;
+}
+
+
+/* --- SCHEDULE TABLE (Row 3) --- */
+.table-header {
+    flex-direction: row;
+    border-bottom-width: 1px;
+    border-bottom-color: #EEE;
+    padding-bottom: 10px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+.table-row {
+    flex-direction: row;
+    padding: 12px 0;
+    border-bottom-width: 1px;
+    border-bottom-color: #F9F9F9;
+    align-items: center;
+}
+
+.col-time { width: 20%; font-size: 13px; color: #636E72; -unity-font-style: bold; }
+.col-subject { width: 35%; font-size: 14px; color: #2D3436; -unity-font-style: bold; }
+.col-room { width: 20%; font-size: 13px; color: #636E72; }
+.col-status { width: 25%; font-size: 12px; }
+
+.tag-status-active {
+    background-color: #E1F1FF;
+    color: #0984E3;
+    padding: 4px 10px;
+    border-radius: 12px;
+    align-self: flex-start;
+    -unity-font-style: bold;
+}
+
+.tag-status-pending {
+    background-color: #F1F2F6;
+    color: #636E72;
+    padding: 4px 10px;
+    border-radius: 12px;
+    align-self: flex-start;
+}
+
+/* --- HISTORY LOG STYLES (NEW) --- */
+.log-header-row {
+    flex-direction: row;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(0,0,0,0.05);
+}
+
+.col-log-name { width: 30%; font-size: 14px; color: #636E72; -unity-font-style: bold; }
+.col-log-mssv { width: 15%; font-size: 14px; color: #636E72; }
+.col-log-time { width: 15%; font-size: 14px; color: #636E72; }
+.col-log-date { width: 20%; font-size: 14px; color: #636E72; }
+.col-log-status { width: 20%; font-size: 14px; color: #636E72; }
+
+.log-list-view {
+    background-color: transparent;
+}
+/* --- TODAY'S SCHEDULE TABLE (Redesign) --- */
+.table-header {
+    flex-direction: row;
+    border-bottom-width: 1px;
+    border-bottom-color: #DFE6E9;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.col-time, .col-subject, .col-room {
+    font-size: 15px;
+    -unity-font-style: bold;
+    color: #2D3436;
+}
+
+.col-status {
+    font-size: 13px;
+    -unity-font-style: bold;
+}
+
+.table-row Label {
+    font-size: 15px;
+}
+
+/* Make header labels slightly lighter */
+.table-header .col-time, .table-header .col-subject, .table-header .col-room, .table-header .col-status {
+    color: #636E72;
+    font-size: 13px;
+    -unity-font-style: normal;
+}
+
+/* ===== TERM / WEEK BAR ===== */
+.term-bar {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 18px;
+    margin-bottom: 10px;
+}
+
+.term-field {
+    width: 200px;
+}
+
+.term-label {
+    font-size: 12px;
+    color: #636E72;
+    margin-bottom: 4px;
+}
+
+.term-dropdown {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #DFE6E9;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 36px;
+    font-size: 13px;
+    color: #2D3436;
+}
+
+/* ===== PHASE DATE BAR ===== */
+.phase-bar {
+    flex-direction: row;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.phase-block {
+    flex-grow: 1;
+}
+
+.phase-row {
+    flex-direction: row;
+    gap: 12px;
+}
+
+.date-field {
+    flex-grow: 1;
+}
+
+.mini-label {
+    font-size: 11px;
+    color: #636E72;
+    margin-bottom: 4px;
+}
+
+.date-input {
+    background-color: #FFFFFF;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: #DFE6E9;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 36px;
+    font-size: 13px;
+    color: #2D3436;
+}
+
+/* ===== CLASS PICKER MODAL ===== */
+.classpicker-overlay {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.55);
+    justify-content: center;
+    align-items: center;
+}
+
+.classpicker-overlay.is-hidden { display: none; }
+
+.classpicker-card {
+    background-color: white;
+    border-radius: 16px;
+    width: 80%;
+    min-width: 560px;
+    max-width: 900px;
+    max-height: 86%;
+    padding: 22px 26px;
+}
+
+.classpicker-title {
+    font-size: 22px;
+    -unity-font-style: bold;
+    margin-bottom: 14px;
+    color: rgb(30,30,30);
+}
+
+.classpicker-scroll {
+    max-height: 560px;
+    margin-bottom: 12px;
+}
+
+.classpicker-item {
+    height: 54px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    background-color: rgb(242,242,242);
+    color: rgb(30,30,30);
+    border-radius: 10px;
+    border-width: 0;
+    transition-duration: 0.15s;
+}
+
+.classpicker-item:hover {
+    background-color: rgb(220,220,220);
+    scale: 1.02;
+}
+
+.classpicker-item.is-selected {
+    background-color: rgb(58, 123, 213);
+    color: white;
+}
+
+.classpicker-close {
+    height: 46px;
+    font-size: 15px;
+    background-color: rgb(230,230,230);
+    color: rgb(30,30,30);
+    border-radius: 10px;
+    border-width: 0;
+}
+
+.classpicker-close:hover {
+    background-color: rgb(200,200,200);
+}
+
+/* =========================================
+   SIDEBAR FINAL: Active = bubble + tint icon
+   Collapsed = centered icon, no hover scale
+   ========================================= */
+
+/* 1) Icon SVG (VisualElement background-image) */
+.menu-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px; /* expanded */
+    background-color: transparent; /* IMPORTANT: không cho nền icon */
+    background-repeat: no-repeat;
+    -unity-background-scale-mode: scale-to-fit;
+    -unity-background-image-tint-color: #8E8E93; /* default */
+}
+
+/* Map class -> SVG */
+.icon-home       { background-image: url("project://database/Assets/UI/Icons/Lucide/layout-dashboard.svg"); }
+.icon-register   { background-image: url("project://database/Assets/UI/Icons/Lucide/user-plus.svg"); }
+.icon-attendance { background-image: url("project://database/Assets/UI/Icons/Lucide/scan-face.svg"); }
+.icon-classlist  { background-image: url("project://database/Assets/UI/Icons/Lucide/contact.svg"); }
+.icon-stats      { background-image: url("project://database/Assets/UI/Icons/Lucide/chart-column.svg"); }
+.icon-schedule   { background-image: url("project://database/Assets/UI/Icons/Lucide/calendar.svg"); }
+.icon-settings   { background-image: url("project://database/Assets/UI/Icons/Lucide/settings.svg"); }
+.icon-logout     { background-image: url("project://database/Assets/UI/Icons/Lucide/log-out.svg"); }
+
+/* 2) Hover (expanded): chỉ đổi nền + tint nhẹ */
+.menu-item:hover {
+    background-color: #F2F2F7;
+}
+.menu-item:hover .menu-icon {
+    -unity-background-image-tint-color: #5A5A66;
+}
+
+/* 3) ACTIVE: KHÔNG swap icon, CHỈ bubble + tint */
+.menu-item.active {
+    background-color: #2D3436;
+}
+.menu-item.active .menu-icon {
+    -unity-background-image-tint-color: #FFFFFF;
+}
+.menu-item.active .menu-text {
+    color: #FFFFFF;
+}
+
+/* 4) COLLAPSED MODE */
+.sidebar-wide.is-collapsed {
+    width: 84px;
+    padding: 20px 10px;
+    align-items: center;
+}
+
+/* Ẩn text, giữ logo-container để còn bấm toggle */
+.sidebar-wide.is-collapsed .logo-container {
+    display: flex;
+    justify-content: center;
+}
+.sidebar-wide.is-collapsed .logo-container .logo-text {
+    display: none;
+}
+.sidebar-wide.is-collapsed .menu-text {
+    display: none;
+}
+
+/* Center icon: bỏ padding-left + margin-right */
+.sidebar-wide.is-collapsed .menu-item {
+    justify-content: center;
+    padding-left: 0;
+    height: 52px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+}
+.sidebar-wide.is-collapsed .menu-icon {
+    margin-right: 0;
+}
+
+/* Collapsed: TẮT scale hover, chỉ đổi nền */
+.sidebar-wide.is-collapsed .menu-item:hover {
+    scale: 1;
+    background-color: #F2F2F7;
+}
+.sidebar-wide.is-collapsed .menu-item.active:hover {
+    background-color: #2D3436;
+}
+
+/* 5) Override rule cũ (tránh icon bị nền trắng/lệch) */
+.menu-item.active .icon-home,
+.menu-item.active .icon-register,
+.menu-item.active .icon-attendance,
+.menu-item.active .icon-classlist,
+.menu-item.active .icon-stats,
+.menu-item.active .icon-schedule,
+.menu-item.active .icon-settings,
+.menu-item.active .icon-logout {
+    background-color: transparent;
+}
+
+/* =========================
+   UNIFORM BUTTON WIDTHS
+   ========================= */
+.btn-w160 { width: 160px; }
+.btn-w220 { width: 220px; }
+.btn-h40  { height: 40px; }
+
+/* =========================
+   STATS: WEEKLY HEATMAP
+   ========================= */
+.heatmap-canvas {
+    flex-direction: row;
+    align-items: stretch;
+}
+.heatmap-cell {
+    flex-grow: 1;
+    height: 90px;
+    border-radius: 12px;
+    margin-right: 8px;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+}
+.heatmap-cell:last-child { margin-right: 0; }
+.heatmap-day {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: rgb(45,52,54);
+    margin-bottom: 4px;
+}
+.heatmap-value {
+    font-size: 12px;
+    color: rgb(45,52,54);
+    -unity-text-align: middle-center;
+    white-space: normal;
+}
+
+/* =========================
+   LOGIN: GOOGLE BUTTON
+   ========================= */
+.btn-google {
+    height: 40px;
+    background-color: white;
+    border-width: 1px;
+    border-color: rgb(206, 212, 218);
+    border-radius: 4px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+.btn-google:hover { background-color: rgb(245, 246, 250); }
+.google-icon {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: rgb(240, 240, 240);
+    -unity-text-align: middle-center;
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: rgb(66, 133, 244);
+}
+.google-text {
+    font-size: 14px;
+    color: rgb(45,52,54);
+    -unity-font-style: bold;
+}

@@ -1,0 +1,154 @@
+<mxfile host="app.diagrams.net" modified="2026-04-05" agent="Antigravity" version="24.0">
+  <diagram id="dataflow" name="Data Flow - Face Verification">
+    <mxGraphModel dx="1600" dy="1400" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="1800" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="title" value="FaceCheckin AI — Data Flow (Face Verification)" style="text;html=1;fontSize=20;fontStyle=1;fillColor=none;fontColor=#2d3436;align=center;" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="500" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- ======= NODE: Camera / User ======= -->
+        <mxCell id="N1" value="Camera / User&#xa;(ESP32 / Webcam)" style="shape=ellipse;whiteSpace=wrap;html=1;fillColor=#0984e3;fontColor=#fff;strokeColor=#74b9ff;fontSize=13;fontStyle=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="80" width="220" height="65" as="geometry" />
+        </mxCell>
+
+        <!-- ======= ZONE A: AI Processing (background) ======= -->
+        <mxCell id="ZA_bg" value="AI Processing System (Modal GPU — T4)" style="rounded=1;arcSize=6;fillColor=#1a0a2e;strokeColor=#6c5ce7;opacity=40;fontSize=12;fontStyle=1;fontColor=#a29bfe;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="260" y="180" width="440" height="380" as="geometry" />
+        </mxCell>
+
+        <!-- Step A1: YOLOv8 -->
+        <mxCell id="A1" value="YOLOv8 Virtual Proctor&#xa;(Đếm người / Cheating detect)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d3436;fontColor=#dfe6e9;strokeColor=#636e72;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="220" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step A2: RetinaFace -->
+        <mxCell id="A2" value="RetinaFace — Face Detection&#xa;(Crop face + Align + Confidence)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c5ce7;fontColor=#fff;strokeColor=#a29bfe;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="300" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step A3: ArcFace -->
+        <mxCell id="A3" value="ArcFace — Feature Extraction&#xa;(Vector 512-D Embedding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d63031;fontColor=#fff;strokeColor=#ff7675;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="380" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step A4: L2 Normalize -->
+        <mxCell id="A4" value="L2 Normalization&#xa;(Chuẩn hóa Vector đơn vị)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="460" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Zone A arrows (with labels ON the arrows) -->
+        <mxCell id="ea_cam" value="Base64 JPEG" style="strokeColor=#74b9ff;strokeWidth=2;fontSize=9;fontColor=#74b9ff;" edge="1" parent="1" source="N1" target="A1"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ea1" value="person_count, cheating" style="strokeColor=#a29bfe;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="A1" target="A2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ea2" value="Cropped Face + Conf" style="strokeColor=#a29bfe;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="A2" target="A3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ea3" value="Raw Vector 512-D" style="strokeColor=#a29bfe;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="A3" target="A4"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ======= NODE: Quality Filter (diamond) ======= -->
+        <mxCell id="N_QF" value="Quality Filter&#xa;(Confidence ≥ 0.90)" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fdcb6e;fontColor=#2d3436;strokeColor=#ffeaa7;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="370" y="540" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- A4 -> QF arrow -->
+        <mxCell id="E_a4_qf" value="Vector đơn vị 512-D" style="strokeColor=#a29bfe;strokeWidth=2;fontSize=9;fontColor=#fd79a8;" edge="1" parent="1" source="A4" target="N_QF"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ======= NODE: FAISS Search ======= -->
+        <mxCell id="N_FAISS" value="FAISS Index Search&#xa;(ID-Aware, Cosine/IP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e84393;fontColor=#fff;strokeColor=#fd79a8;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="340" y="700" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        <!-- QF -> FAISS arrow -->
+        <mxCell id="E_qf_faiss" value="Pass" style="strokeColor=#fd79a8;strokeWidth=2;fontSize=9;fontColor=#fdcb6e;" edge="1" parent="1" source="N_QF" target="N_FAISS"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ======= ZONE B: Python Backend (background) ======= -->
+        <mxCell id="ZB_bg" value="Python Backend Control (Flask — Cloud Run)" style="rounded=1;arcSize=6;fillColor=#0d1b2a;strokeColor=#1b2838;opacity=40;fontSize=12;fontStyle=1;fontColor=#00cec9;verticalAlign=top;align=left;spacingLeft=10;spacingTop=5;" vertex="1" parent="1">
+          <mxGeometry x="260" y="760" width="440" height="440" as="geometry" />
+        </mxCell>
+
+        <!-- Step B1: Cosine Similarity -->
+        <mxCell id="B1" value="Tính toán Cosine Similarity&#xa;(best_sim, second_sim)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="770" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step B2: Match Percent -->
+        <mxCell id="B2" value="Tính Match Percentage&#xa;score = (sim - threshold) / scale × 100%" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="850" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step B3: Gap & Ratio -->
+        <mxCell id="B3" value="Kiểm tra Độ tin cậy&#xa;(Gap ≥ GAP_MIN  &amp;&amp;  Ratio ≤ RATIO_MAX)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fdcb6e;fontColor=#2d3436;strokeColor=#ffeaa7;fontSize=10;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="930" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step B4: Identity Confirmation -->
+        <mxCell id="B4" value="Xác nhận Danh tính&#xa;(Lookup user_map → name, mssv)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00b894;fontColor=#fff;strokeColor=#55efc4;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="1010" width="300" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- Step B5: Continuous Learning -->
+        <mxCell id="B5" value="Continuous Learning&#xa;(if Match ≥ 98% → auto_learn_face)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a29bfe;fontColor=#2d3436;strokeColor=#6c5ce7;fontSize=10;dashed=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="1100" width="300" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- FAISS -> B1 -->
+        <mxCell id="E_faiss_b" style="strokeColor=#e84393;strokeWidth=2;" edge="1" parent="1" source="N_FAISS" target="B1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Zone B internal arrows (labels on edges) -->
+        <mxCell id="eb1" value="Similarity" style="strokeColor=#636e72;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="B1" target="B2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb2" value="Match (%)" style="strokeColor=#636e72;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="B2" target="B3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb3" value="Valid / Not" style="strokeColor=#636e72;strokeWidth=2;fontSize=8;fontColor=#b2bec3;" edge="1" parent="1" source="B3" target="B4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="eb4" value="High Conf ≥ 98%" style="strokeColor=#a29bfe;strokeWidth=2;dashed=1;fontSize=8;fontColor=#a29bfe;" edge="1" parent="1" source="B4" target="B5"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ======= NODE: Database Firestore ======= -->
+        <mxCell id="N_DB" value="Database&#xa;Firestore" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=13;fontStyle=1;shadow=1;size=12;" vertex="1" parent="1">
+          <mxGeometry x="400" y="1200" width="160" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- ======= NODE: Unity Response ======= -->
+        <mxCell id="N_RESP" value="Kết quả hiển thị&#xa;(Unity UI)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0984e3;fontColor=#fff;strokeColor=#74b9ff;fontSize=12;fontStyle=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="760" y="1015" width="180" height="45" as="geometry" />
+        </mxCell>
+
+        <!-- ======= OUTPUT EDGES ======= -->
+
+        <!-- B4 -> Database: route RIGHT to avoid B5 -->
+        <mxCell id="E_b_db" value="write_attendance" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#e17055;strokeWidth=2;fontColor=#e17055;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="B4" target="N_DB">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="1032" />
+              <mxPoint x="680" y="1240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- B5 -> Database (straight down) -->
+        <mxCell id="E_learn_db" value="auto_learn_face" style="strokeColor=#a29bfe;strokeWidth=2;dashed=1;fontColor=#a29bfe;fontSize=9;" edge="1" parent="1" source="B5" target="N_DB"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- B4 -> Unity Response -->
+        <mxCell id="E_resp" value="JSON {name, mssv, %, status}" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#74b9ff;strokeWidth=2;fontColor=#74b9ff;fontSize=9;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="B4" target="N_RESP"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- DB -> FAISS feedback (left side loop) -->
+        <mxCell id="E_db_faiss" value="load_teacher_data()" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#e17055;strokeWidth=1;dashed=1;fontColor=#e17055;fontSize=8;fontStyle=2;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N_DB" target="N_FAISS">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="1240" />
+              <mxPoint x="200" y="665" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Unity -> Camera feedback -->
+        <mxCell id="E_resp_cam" value="Hiển thị kết quả" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#00b894;strokeWidth=1;dashed=1;fontColor=#00b894;fontSize=8;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="N_RESP" target="N1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="850" y="112" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

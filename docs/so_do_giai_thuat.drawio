@@ -1,0 +1,211 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" version="29.6.6">
+  <diagram id="algorithm-diagram" name="Sơ đồ giải thuật">
+    <mxGraphModel dx="1583" dy="886" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="center-line" parent="1" style="shape=line;strokeColor=#999999;dashed=1;dashPattern=8 4;strokeWidth=1;rotation=90;" value="" vertex="1">
+          <mxGeometry height="1" width="1400" x="-250" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="label-client" parent="1" style="text;html=1;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=3;fontColor=#999999;" value="CLIENT (Unity)" vertex="1">
+          <mxGeometry height="25" width="120" x="140" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="label-server" parent="1" style="text;html=1;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;fontStyle=3;fontColor=#999999;" value="SERVER (Cloud Run + Modal)" vertex="1">
+          <mxGeometry height="25" width="200" x="500" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="start" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#333333;fontSize=13;fontStyle=1;arcSize=50;" value="BẮT ĐẦU" vertex="1">
+          <mxGeometry height="45" width="140" x="295" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="receive-frame" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" value="NHẬN FRAME TỪ MEDIAPIPE&#xa;(468 landmarks)" vertex="1">
+          <mxGeometry height="50" width="220" x="255" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-start-frame" edge="1" parent="1" source="start" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="receive-frame">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="face-detected" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" value="CÓ PHÁT HIỆN&#xa;MẶT?" vertex="1">
+          <mxGeometry height="100" width="160" x="285" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-frame-face" edge="1" parent="1" source="receive-frame" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="face-detected">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-face-no" edge="1" parent="1" source="face-detected" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;entryX=1;entryY=0.5;strokeColor=#CC0000;" target="receive-frame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="510" y="270" />
+              <mxPoint x="510" y="155" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-face-no-label" connectable="0" parent="arr-face-no" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#CC0000;" value="Không" vertex="1">
+          <mxGeometry relative="1" x="-0.6" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="crop-resize" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" value="CROP THEO bbox VÀ RESIZE&#xa;(160x160)" vertex="1">
+          <mxGeometry height="50" width="200" x="265" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-face-crop" edge="1" parent="1" source="face-detected" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="crop-resize">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-face-yes-label" connectable="0" parent="arr-face-crop" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#009900;" value="Có" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="-15" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="iou-check" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=1;" value="IoU &gt; 0.5?&#xa;(Trùng face&#xa;đã gửi?)" vertex="1">
+          <mxGeometry height="100" width="130" x="300" y="445" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-crop-iou" edge="1" parent="1" source="crop-resize" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="iou-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-iou-yes" edge="1" parent="1" source="iou-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;entryX=1;entryY=0.5;strokeColor=#CC0000;" target="receive-frame">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="495" />
+              <mxPoint x="540" y="155" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-iou-yes-label" connectable="0" parent="arr-iou-yes" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#CC0000;" value="Có (skip)" vertex="1">
+          <mxGeometry relative="1" x="-0.7" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="mode-check" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" value="CHẾ ĐỘ?" vertex="1">
+          <mxGeometry height="90" width="130" x="300" y="585" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-iou-mode" edge="1" parent="1" source="iou-check" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="mode-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-iou-no-label" connectable="0" parent="arr-iou-mode" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#009900;" value="Không" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="-20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-register" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;fontStyle=1;" value="POST /register&#xa;KÈM TÊN VÀ MSSV&#xa;(Base64 image)" vertex="1">
+          <mxGeometry height="60" width="170" x="60" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-mode-register" edge="1" parent="1" source="mode-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=0;exitY=0.5;entryX=0.5;entryY=0;strokeColor=#333333;" target="post-register">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-mode-register-label" connectable="0" parent="arr-mode-register" style="edgeLabel;html=1;fontSize=10;fontStyle=2;" value="Đăng ký" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gpu-register" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=9;fontStyle=0;" value="Modal GPU:&#xa;RetinaFace detect&#xa;→ ArcFace embedding&#xa;(512-dim vector)" vertex="1">
+          <mxGeometry height="65" width="170" x="60" y="820" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-reg-gpu" edge="1" parent="1" source="post-register" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="gpu-register">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="server-ok" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;" value="SERVER OK?" vertex="1">
+          <mxGeometry height="90" width="130" x="80" y="925" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-gpu-serverok" edge="1" parent="1" source="gpu-register" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="server-ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="reload-faiss" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" value="RELOAD FAISS VÀ&#xa;THÔNG BÁO&#xa;THÀNH CÔNG" vertex="1">
+          <mxGeometry height="55" width="150" x="30" y="1065" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ok-reload" edge="1" parent="1" source="server-ok" style="rounded=0;exitX=0.25;exitY=1;entryX=0.5;entryY=0;strokeColor=#009900;" target="reload-faiss">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ok-reload-label" connectable="0" parent="arr-ok-reload" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#009900;" value="Có" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="error-msg" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;fontStyle=1;" value="THÔNG BÁO LỖI" vertex="1">
+          <mxGeometry height="45" width="120" x="215" y="1065" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ok-error" edge="1" parent="1" source="server-ok" style="rounded=0;exitX=0.75;exitY=1;entryX=0.5;entryY=0;strokeColor=#CC0000;" target="error-msg">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-ok-error-label" connectable="0" parent="arr-ok-error" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#CC0000;" value="Không" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="post-verify" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;" value="POST /verify&#xa;(Base64 image)" vertex="1">
+          <mxGeometry height="50" width="160" x="500" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-mode-verify" edge="1" parent="1" source="mode-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;entryX=0.5;entryY=0;strokeColor=#333333;" target="post-verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-mode-verify-label" connectable="0" parent="arr-mode-verify" style="edgeLabel;html=1;fontSize=10;fontStyle=2;" value="Điểm danh" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="gpu-verify" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=9;fontStyle=0;" value="Modal GPU:&#xa;YOLOv8 anti-fraud&#xa;→ RetinaFace detect&#xa;→ ArcFace embedding&#xa;(512-dim vector)" vertex="1">
+          <mxGeometry height="75" width="170" x="495" y="810" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-verify-gpu" edge="1" parent="1" source="post-verify" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="gpu-verify">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="faiss-search" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d1c4e9;strokeColor=#4527a0;fontSize=9;fontStyle=0;" value="FAISS Cosine&#xa;Similarity Search&#xa;(IndexFlatIP)" vertex="1">
+          <mxGeometry height="50" width="140" x="510" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-gpu-faiss" edge="1" parent="1" source="gpu-verify" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="faiss-search">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="distance-check" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;fontStyle=1;" value="best_sim ≥ 0.55&#xa;AND gap ≥ 0.03&#xa;AND ratio ≤ 0.97?" vertex="1">
+          <mxGeometry height="120" width="180" x="490" y="1010" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-faiss-dist" edge="1" parent="1" source="faiss-search" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="distance-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="match-success" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1;" value="NHẬN DIỆN THÀNH CÔNG&#xa;VÀ COOLDOWN&#xa;(Log attendance&#xa;→ Firestore)" vertex="1">
+          <mxGeometry height="65" width="175" x="452" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dist-match" edge="1" parent="1" source="distance-check" style="rounded=0;exitX=0.25;exitY=1;entryX=0.5;entryY=0;strokeColor=#009900;" target="match-success">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dist-match-label" connectable="0" parent="arr-dist-match" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#009900;" value="Có" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="unknown" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;fontStyle=1;" value="UNKNOWN" vertex="1">
+          <mxGeometry height="40" width="110" x="660" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dist-unknown" edge="1" parent="1" source="distance-check" style="rounded=0;exitX=1;exitY=1;entryX=0.5;entryY=0;strokeColor=#CC0000;" target="unknown">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-dist-unknown-label" connectable="0" parent="arr-dist-unknown" style="edgeLabel;html=1;fontSize=10;fontStyle=2;fontColor=#CC0000;" value="Không" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="auto-learn-check" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontSize=9;fontStyle=1;" value="match ≥ 98%?" vertex="1">
+          <mxGeometry height="80" width="120" x="479" y="1280" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-match-autolearn" edge="1" parent="1" source="match-success" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#333333;" target="auto-learn-check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="auto-learn-action" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff9c4;strokeColor=#f9a825;fontSize=9;fontStyle=1;" value="AUTO-LEARN&#xa;(Cập nhật vector&#xa;vào FAISS)" vertex="1">
+          <mxGeometry height="45" width="140" x="469" y="1395" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-autolearn-yes" edge="1" parent="1" source="auto-learn-check" style="rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;strokeColor=#f9a825;" target="auto-learn-action">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="arr-autolearn-yes-label" connectable="0" parent="arr-autolearn-yes" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#f9a825;" value="Có" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint x="-10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-autolearn-no" edge="1" parent="1" source="auto-learn-check" style="edgeStyle=orthogonalEdgeStyle;rounded=0;exitX=1;exitY=0.5;strokeColor=#999999;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="1320" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="arr-autolearn-no-label" connectable="0" parent="arr-autolearn-no" style="edgeLabel;html=1;fontSize=9;fontStyle=2;fontColor=#999999;" value="Không" vertex="1">
+          <mxGeometry relative="1" x="-0.3" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

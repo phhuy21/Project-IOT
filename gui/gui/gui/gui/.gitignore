@@ -1,0 +1,12 @@
+# Chặn thư mục rác của Unity (Bắt buộc)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# Chặn thư mục AI quá nặng (GitHub không chứa nổi file 1GB đâu)
+gui/Assets/StreamingAssets/FaceAI/
+gui/Assets/Firebase/

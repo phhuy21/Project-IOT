@@ -1,0 +1,267 @@
+<mxfile host="app.diagrams.net" modified="2026-04-05" agent="Antigravity" version="24.0">
+  <diagram id="arch" name="System Architecture">
+    <mxGraphModel dx="1800" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1050" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- TITLE -->
+        <mxCell id="title" value="FaceCheckin AI - System Architecture" style="text;html=1;fontSize=20;fontStyle=1;fillColor=none;fontColor=#2d3436;align=center;" vertex="1" parent="1">
+          <mxGeometry x="500" y="10" width="500" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!--  LANE: UNITY  (x=20, w=310, h=550)          -->
+        <!-- ============================================ -->
+        <mxCell id="LU" value="UNITY APP" style="shape=swimlane;startSize=25;fillColor=#1a1a2e;fontColor=#e0e0e0;strokeColor=#16213e;fontSize=13;fontStyle=1;rounded=1;arcSize=6;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="20" y="50" width="310" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="U_cam" value="Camera (ESP32 / Webcam)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d3436;fontColor=#dfe6e9;strokeColor=#636e72;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="35" width="135" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="U_mp" value="MediaPipe FaceDetect" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c5ce7;fontColor=#fff;strokeColor=#a29bfe;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="160" y="35" width="140" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="U_dash" value="UI Dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#0984e3;fontColor=#fff;strokeColor=#74b9ff;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="90" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="U_recog" value="Recognition Loop (Multi-frame)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="155" width="290" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="U_auth" value="Auth Module" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fdcb6e;fontColor=#2d3436;strokeColor=#ffeaa7;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="230" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="U_prof" value="Profile + Log Viewer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dfe6e9;fontColor=#2d3436;strokeColor=#b2bec3;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="300" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="U_roster" value="Roster Manager" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#74b9ff;fontColor=#2d3436;strokeColor=#0984e3;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="370" width="290" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="U_gs" value="Google Sheets Sync" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00b894;fontColor=#fff;strokeColor=#55efc4;fontSize=10;fontStyle=1;" vertex="1" parent="LU">
+          <mxGeometry x="10" y="440" width="290" height="30" as="geometry" />
+        </mxCell>
+        <!-- Unity internal -->
+        <mxCell id="ue1" style="strokeColor=#636e72;" edge="1" parent="LU" source="U_cam" target="U_mp"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ue2" style="strokeColor=#636e72;" edge="1" parent="LU" source="U_mp" target="U_dash"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="ue3" style="strokeColor=#636e72;" edge="1" parent="LU" source="U_dash" target="U_recog"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============================================ -->
+        <!--  LANE: CLOUD  (x=430, w=310, h=530)         -->
+        <!-- ============================================ -->
+        <mxCell id="LC" value="GOOGLE CLOUD (Flask + Cloud Run)" style="shape=swimlane;startSize=25;fillColor=#0d1b2a;fontColor=#e0e0e0;strokeColor=#1b2838;fontSize=13;fontStyle=1;rounded=1;arcSize=6;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="50" width="310" height="530" as="geometry" />
+        </mxCell>
+        <mxCell id="C_main" value="Flask main.py (Entry)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00cec9;fontColor=#2d3436;strokeColor=#81ecec;fontSize=10;fontStyle=1;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="35" width="290" height="25" as="geometry" />
+        </mxCell>
+        <!-- Row A: y_in=85, h=35 → midY_abs = 50+85+17 = 152 -->
+        <mxCell id="C_auth" value="/auth/login, /register, /forgot" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="85" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row B: y_in=145, h=35 → midY_abs = 50+145+17 = 212 -->
+        <mxCell id="C_reg" value="/register (face), /reload (FAISS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="145" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row C: y_in=210, h=35 → midY_abs = 50+210+17 = 277 (no firebase pair) -->
+        <mxCell id="C_verify" value="/verify (Face Recognition)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d63031;fontColor=#fff;strokeColor=#ff7675;fontSize=10;fontStyle=1;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="210" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row D: y_in=280, h=35 → midY_abs = 50+280+17 = 347 -->
+        <mxCell id="C_prof" value="/profiles, /logs, /correct, /delete" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="280" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row E: y_in=345, h=35 → midY_abs = 50+345+17 = 412 -->
+        <mxCell id="C_roster" value="/roster, /import, /schedule" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="345" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row F: y_in=410, h=35 → midY_abs = 50+410+17 = 477 -->
+        <mxCell id="C_gsheets" value="/gsheets/*, /google/oauth/*" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#636e72;fontColor=#dfe6e9;strokeColor=#b2bec3;fontSize=9;align=left;spacingLeft=8;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="410" width="290" height="35" as="geometry" />
+        </mxCell>
+        <!-- FAISS + Modal at bottom -->
+        <mxCell id="C_faiss" value="FAISS Index&#xa;ID-Aware" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e84393;fontColor=#fff;strokeColor=#fd79a8;fontSize=10;fontStyle=1;" vertex="1" parent="LC">
+          <mxGeometry x="10" y="475" width="135" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="C_modal" value="Modal Client&#xa;HTTP to GPU" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a29bfe;fontColor=#2d3436;strokeColor=#6c5ce7;fontSize=10;fontStyle=1;" vertex="1" parent="LC">
+          <mxGeometry x="165" y="475" width="135" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!--  LANE: FIREBASE  (x=860, w=300, h=530)      -->
+        <!--  EXACT SAME y_in offsets as Cloud rows!      -->
+        <!-- ============================================ -->
+        <mxCell id="LF" value="FIREBASE (Firestore)" style="shape=swimlane;startSize=25;fillColor=#1b1a17;fontColor=#f5c518;strokeColor=#3d3b30;fontSize=13;fontStyle=1;rounded=1;arcSize=6;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="860" y="50" width="300" height="530" as="geometry" />
+        </mxCell>
+        <!-- Row A: y_in=85, h=35 → midY_abs = 152 (matches C_auth) -->
+        <mxCell id="F_teachers" value="Teachers  {user, pass, email}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=9;fontStyle=1;" vertex="1" parent="LF">
+          <mxGeometry x="10" y="85" width="280" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row B: y_in=145, h=35 → midY_abs = 212 (matches C_reg) -->
+        <mxCell id="F_faces" value="FaceVectors  {mssv, vectors[], embed}&#xa;+ Firebase Storage (photos)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=9;fontStyle=1;" vertex="1" parent="LF">
+          <mxGeometry x="10" y="145" width="280" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- Row D: y_in=280, h=35 → midY_abs = 347 (matches C_prof) -->
+        <mxCell id="F_logs" value="AttendanceLogs  {date, mssv, time}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=9;fontStyle=1;" vertex="1" parent="LF">
+          <mxGeometry x="10" y="280" width="280" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row E: y_in=345, h=35 → midY_abs = 412 (matches C_roster) -->
+        <mxCell id="F_roster" value="Roster  {name, mssv, registered}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=9;fontStyle=1;" vertex="1" parent="LF">
+          <mxGeometry x="10" y="345" width="280" height="35" as="geometry" />
+        </mxCell>
+        <!-- Row F: y_in=410, h=35 → midY_abs = 477 (matches C_gsheets) -->
+        <mxCell id="F_oauth" value="GoogleOAuth  {token, refresh}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e17055;fontColor=#fff;strokeColor=#fab1a0;fontSize=9;fontStyle=1;" vertex="1" parent="LF">
+          <mxGeometry x="10" y="410" width="280" height="35" as="geometry" />
+        </mxCell>
+
+
+        <!-- ============================================ -->
+        <!--  EXTERNAL: Google Sheets (outside lanes)     -->
+        <!-- ============================================ -->
+        <mxCell id="GSheets" value="Google Sheets&#xa;(Attendance Export)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#00b894;fontColor=#fff;strokeColor=#55efc4;fontSize=11;fontStyle=1;shadow=1;" vertex="1" parent="1">
+          <mxGeometry x="1220" y="460" width="170" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============================================ -->
+        <!--  LANE: MODAL GPU (x=430, y=640, horizontal)  -->
+        <!-- ============================================ -->
+        <mxCell id="LM" value="MODAL (GPU Worker - T4)" style="shape=swimlane;startSize=25;fillColor=#1a0a2e;fontColor=#e0e0e0;strokeColor=#2d1b69;fontSize=13;fontStyle=1;rounded=1;arcSize=6;collapsible=0;" vertex="1" parent="1">
+          <mxGeometry x="430" y="640" width="620" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="M_in" value="GPU Entry&#xa;gpu_worker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#6c5ce7;fontColor=#fff;strokeColor=#a29bfe;fontSize=9;fontStyle=1;" vertex="1" parent="LM">
+          <mxGeometry x="10" y="35" width="100" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="M2" value="YOLOv8&#xa;(Proctor)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d3436;fontColor=#dfe6e9;strokeColor=#636e72;fontSize=9;" vertex="1" parent="LM">
+          <mxGeometry x="140" y="35" width="110" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="M3" value="RetinaFace&#xa;(Detect)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#2d3436;fontColor=#dfe6e9;strokeColor=#636e72;fontSize=9;" vertex="1" parent="LM">
+          <mxGeometry x="280" y="35" width="110" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="M4" value="ArcFace&#xa;512-d" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d63031;fontColor=#fff;strokeColor=#ff7675;fontSize=9;fontStyle=1;" vertex="1" parent="LM">
+          <mxGeometry x="420" y="35" width="90" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="M_out" value="Return&#xa;JSON" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a29bfe;fontColor=#2d3436;strokeColor=#6c5ce7;fontSize=9;fontStyle=1;" vertex="1" parent="LM">
+          <mxGeometry x="540" y="35" width="60" height="35" as="geometry" />
+        </mxCell>
+
+        <!-- GPU pipeline arrows -->
+        <mxCell id="ma" style="strokeColor=#a29bfe;" edge="1" parent="LM" source="M_in" target="M2"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="mc" style="strokeColor=#a29bfe;" edge="1" parent="LM" source="M2" target="M3"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="md" style="strokeColor=#a29bfe;" edge="1" parent="LM" source="M3" target="M4"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="me" style="strokeColor=#a29bfe;" edge="1" parent="LM" source="M4" target="M_out"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ================================================ -->
+        <!--  EDGES: Unity -> Cloud (dashed, staggered X)     -->
+        <!-- ================================================ -->
+
+        <!-- U_recog -> C_verify (MAIN FLOW, solid red) -->
+        <mxCell id="X1" value="HTTPS POST&#xa;(Base64 JSON)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#ff7675;fontColor=#ff7675;fontSize=8;fontStyle=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="U_recog" target="C_verify">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="350" y="222" />
+              <mxPoint x="350" y="277" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- U_auth -> C_auth (dashed) -->
+        <mxCell id="X2" value="HTTPS REST" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#fdcb6e;fontColor=#fdcb6e;fontSize=7;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="U_auth" target="C_auth">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="365" y="345" />
+              <mxPoint x="365" y="152" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- U_prof -> C_prof (dashed) -->
+        <mxCell id="X3" value="HTTPS REST" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#b2bec3;fontColor=#b2bec3;fontSize=7;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="U_prof" target="C_prof">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="380" y="365" />
+              <mxPoint x="380" y="347" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- U_roster -> C_roster (dashed) -->
+        <mxCell id="X4" value="HTTPS REST" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#74b9ff;fontColor=#74b9ff;fontSize=7;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="U_roster" target="C_roster">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="395" y="435" />
+              <mxPoint x="395" y="412" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- U_gs -> C_gsheets (dashed) -->
+        <mxCell id="X5" value="HTTPS REST" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#00b894;fontColor=#00b894;fontSize=7;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="U_gs" target="C_gsheets">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="410" y="505" />
+              <mxPoint x="410" y="477" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+        <!-- ================================================ -->
+        <!--  EDGES: Cloud -> Firebase (STRAIGHT horizontal!) -->
+        <!--  Same y_in_lane = same absolute Y = NO waypoints -->
+        <!-- ================================================ -->
+
+        <!-- C_auth -> F_teachers  (Row A, y_abs=152) -->
+        <mxCell id="E1" value="Firestore SDK" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#e17055;fontColor=#e17055;fontSize=8;" edge="1" parent="1" source="C_auth" target="F_teachers">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- C_reg -> F_faces  (Row B, y_abs=212) -->
+        <mxCell id="E2" value="Firestore SDK&#xa;+ Storage SDK" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#e17055;fontColor=#e17055;fontSize=8;" edge="1" parent="1" source="C_reg" target="F_faces">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- C_prof -> F_logs  (Row D, y_abs=347) -->
+        <mxCell id="E3" value="Firestore SDK" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#e17055;fontColor=#e17055;fontSize=8;" edge="1" parent="1" source="C_prof" target="F_logs">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- C_roster -> F_roster  (Row E, y_abs=412) -->
+        <mxCell id="E4" value="Firestore SDK" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#e17055;fontColor=#e17055;fontSize=8;" edge="1" parent="1" source="C_roster" target="F_roster">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- C_gsheets -> F_oauth  (Row F, y_abs=477) -->
+        <mxCell id="E5" value="Firestore SDK&#xa;(OAuth Token)" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#e17055;fontColor=#e17055;fontSize=8;" edge="1" parent="1" source="C_gsheets" target="F_oauth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================ -->
+        <!--  EDGE: Cloud -> Google Sheets (goes far right)   -->
+        <!-- ================================================ -->
+        <mxCell id="E6" value="Sheets API v4" style="exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#00b894;fontColor=#00b894;fontSize=8;fontStyle=1;" edge="1" parent="1" source="F_oauth" target="GSheets">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ================================================ -->
+        <!--  EDGES: Cloud <-> Modal (vertical, clean)        -->
+        <!-- ================================================ -->
+
+        <!-- C_modal -> M_in (down) -->
+        <mxCell id="V1" value="HTTPS POST&#xa;(JSON/Base64)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#a29bfe;fontColor=#a29bfe;fontSize=8;fontStyle=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="C_modal" target="M_in">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- M_out -> C_faiss (return embedding, up) -->
+        <mxCell id="V2" value="HTTPS Response&#xa;(512-d Vector)" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#fd79a8;fontColor=#fd79a8;fontSize=8;fontStyle=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="M_out" target="C_faiss">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1055" y="620" />
+              <mxPoint x="508" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

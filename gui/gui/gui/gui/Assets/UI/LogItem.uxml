@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement class="row-item" style="justify-content: flex-start; padding: 0 20px;">
+        <!-- 1. NAME + AVATAR (30%) -->
+        <ui:VisualElement class="log-col-name" style="width: 30%; flex-direction: row; align-items: center;">
+            <ui:VisualElement class="icon-box" style="width: 40px; height: 40px; margin-right: 10px;">
+                <ui:Label name="LblAvatarChar" text="A" class="icon-text" style="font-size: 16px;" />
+            </ui:VisualElement>
+            <ui:Label name="LblName" text="Nguyễn Văn A" class="text-title" style="white-space: normal;" />
+        </ui:VisualElement>
+
+        <!-- 2. MSSV (15%) -->
+        <ui:Label name="LblMssv" text="19110xxx" class="col-log-mssv" style="width: 15%;" />
+
+        <!-- 3. TIME (15%) -->
+        <ui:Label name="LblTime" text="08:30:45" class="col-log-time" style="width: 15%; font-weight: bold;" />
+
+        <!-- 4. DATE (20%) -->
+        <ui:Label name="LblDate" text="01/01/2026" class="col-log-date" style="width: 20%;" />
+
+        <!-- 5. STATUS (20%) -->
+        <ui:VisualElement style="width: 20%;">
+            <ui:Label name="LblStatus" text="Đúng giờ" class="tag-status-active" style="align-self: flex-start;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

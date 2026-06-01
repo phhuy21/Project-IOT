@@ -1,0 +1,17 @@
+.git
+.gitignore
+.env
+venv/
+.venv/
+env/
+upload_files.txt
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.log
+*.zip
+*.tar.gz
+serviceAccountKey.json
+tests/

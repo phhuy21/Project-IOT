@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "650095007289",
+    "project_id": "facecheckin-ai",
+    "storage_bucket": "facecheckin-ai.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:650095007289:android:a3fa3c46080fbf7e085fe8",
+        "android_client_info": {
+          "package_name": "com.huy.face"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFszY3L8sMC16I6_VKvhuJwu8CV_lE2uc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

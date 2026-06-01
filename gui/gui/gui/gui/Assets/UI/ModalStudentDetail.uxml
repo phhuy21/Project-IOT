@@ -1,0 +1,52 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements">
+    <ui:VisualElement name="ModalOverlay" class="modal-overlay" style="display: none;">
+        <ui:VisualElement class="modal-card" style="width: 550px; flex-direction: column;">
+            
+            <!-- Header with Close Button only -->
+            <ui:VisualElement style="flex-direction: row; justify-content: flex-end; width: 100%;">
+                <ui:Button name="BtnCloseModal" text="✕" class="btn-close-icon" />
+            </ui:VisualElement>
+
+            <!-- Main Content: Left (Avatar) - Right (Info) -->
+            <ui:VisualElement style="flex-direction: row; margin-top: -10px; margin-bottom: 20px;">
+                
+                <!-- Left: Square Avatar -->
+                <ui:VisualElement class="avatar-square-container">
+                    <ui:VisualElement name="ModalAvatarImage" style="width: 100%; height: 100%; border-radius: 12px; display: none; -unity-background-scale-mode: scale-and-crop;" />
+                    <ui:Label name="ModalAvatarChar" text="A" style="font-size: 50px; color: white; -unity-font-style: bold; position: absolute;" />
+                </ui:VisualElement>
+
+                <!-- Right: Info -->
+                <ui:VisualElement style="flex-grow: 1; justify-content: flex-start; margin-left: 20px;">
+                    <ui:Label name="ModalName" text="Nguyễn Văn A" style="font-size: 22px; -unity-font-style: bold; color: #2D3436; white-space: normal;" />
+                    <ui:Label name="ModalMssv" text="MSSV: 20145123" style="font-size: 16px; color: #636E72; margin-top: 5px; margin-bottom: 15px;" />
+                    
+                    <!-- Stats Lines -->
+                     <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 5px;">
+                        <ui:Label text="Đi học:" style="width: 80px; color: #636E72;" />
+                        <ui:Label name="ModalTotal" text="15" style="-unity-font-style: bold; color: #0984E3;" />
+                    </ui:VisualElement>
+
+                    <!-- Late Line with Warning -->
+                    <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 5px;">
+                        <ui:Label text="Đi trễ:" style="width: 80px; color: #636E72;" />
+                        <ui:Label name="ModalLate" text="3" style="-unity-font-style: bold; color: #D63031;" />
+                        <ui:Label name="LblWarnLate" text="⚠ Báo động" class="warning-tag" style="display: none; margin-left: 10px;" />
+                    </ui:VisualElement>
+                    
+                    <!-- Absent (Calculated) Line with Warning - Placeholder for logic -->
+                    <!-- Note: Hiện tại chưa có logic Absent trong log, nhưng ta cứ để Label đây để update -->
+                    <ui:VisualElement style="flex-direction: row; align-items: center;">
+                        <ui:Label text="Vắng:" style="width: 80px; color: #636E72;" />
+                        <ui:Label name="ModalAbsent" text="0" style="-unity-font-style: bold; color: #636E72;" />
+                        <ui:Label name="LblWarnAbsent" text="⚠ Cấm thi" class="warning-tag-severe" style="display: none; margin-left: 10px;" />
+                    </ui:VisualElement>
+
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <!-- Footer Action -->
+             <ui:Button name="BtnDeleteStudent" text="Xóa sinh viên" class="btn-delete-red" style="margin-top: 10px;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
